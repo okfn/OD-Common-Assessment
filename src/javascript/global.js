@@ -1,11 +1,24 @@
-// # Browserify entry point for the global.js bundle (yay CoffeeScript!)
+// # Browserify entry point for the global.js bundle
 
-var View, view;
+var Tabletop = require('tabletop').Tabletop;
+//var Sheetsee = require('sheetsee');
 
-View = require('./view');
+var View = require('./view');
 
-view = new View({
+var view = new View({
   el: '#content'
 });
 
 console.log('global.js loaded!');
+
+// var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1CzPZ8V_pyCQDSpGvvv-MMORt8qx-QhSxTCL_kifeFJs/edit?usp=sharing';
+// function init() {
+//     Tabletop.init( { key: public_spreadsheet_url,
+//                      callback: showInfo,
+//                      simpleSheet: true } )
+//     }
+
+//     function showInfo(data, tabletop) {
+//     alert("Successfully processed!")
+//     console.log(data);
+// }

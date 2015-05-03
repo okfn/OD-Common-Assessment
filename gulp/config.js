@@ -21,7 +21,7 @@ module.exports = {
     dest: dest + "/images"
   },
   markup: {
-    src: src + "/htdocs/**",
+    src: src + "/templates/**",
     dest: dest
   },
   iconFonts: {
