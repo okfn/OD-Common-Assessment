@@ -5,10 +5,12 @@
 
 git clone https://github.com/nigelbabu/OD-Common-Assessment
 cd OD-Common-Assessment
+npm install
 bower install
 
 ## Run
 
+gulp serve
 
 ## License
 

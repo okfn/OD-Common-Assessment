@@ -42,7 +42,7 @@
     </thead>
     {{#countries}}
       <tr class="data-{{iso2}}" data-country="{{country}}" >
-        <td class="country"><a href="#/country/{{iso2}}">{{country}}</a></td>
+        <td class="country"><a href="#/country/{{iso2}}">{{Country}}</a></td>
         <td class="results">
           <div class="result-wrapper">
             <a class="hdi" href="#" title="" style="width: {{humandevelopmentindex *100*0.5}}%;" data-title=""></a>
@@ -53,38 +53,6 @@
       </tr>
     {{/countries}}
   </table>
-</script>
-
-
-
-<script type="text/javascript">
-
-  function calculateCSSWidth(value) {
-    return value * 100;
-  }
-
-  document.addEventListener('DOMContentLoaded', function() {
-    var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig"
-    Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false } )
-  })
-
-  function showInfo(data) {
-    var countryData = data.Graph.elements;
-    // Get worksheet named Graph
-    cc = {countries: countryData};
-    console.log(data);
-    //$('#fullTable').html(ich.countries(cc));
-
-    var ractive = new Ractive({
-      el: '#graph',
-      template: '#template',
-      data: {countries: countryData}
-    });
-
-  }
-
-
-
 </script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
