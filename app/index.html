@@ -14,6 +14,7 @@
     <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="bower_components/normalize.css/normalize.css">
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 
@@ -30,41 +31,61 @@
     <![endif]-->
 
     <div class="container">
-      <div class="header">
-        <ul class="nav nav-pills pull-right">
-          <li class="active"><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Contact</a></li>
-        </ul>
-        <h3 class="text-muted">OD Common Assessment</h3>
-      </div>
-
-      <div class="jumbotron">
-        <h1>'Allo, 'Allo!</h1>
-        <p class="lead">Always a pleasure scaffolding your apps.</p>
-        <p><a class="btn btn-lg btn-success" href="#">Splendid!</a></p>
-      </div>
-
-      <div class="row marketing">
-        <div class="col-lg-6">
-          <h4>HTML5 Boilerplate</h4>
-          <p>HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.</p>
-
-          <h4>Sass</h4>
-          <p>Sass is the most mature, stable, and powerful professional grade CSS extension language in the world.</p>
-
-          <h4>Bootstrap</h4>
-          <p>Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.</p>
-          <h4>Modernizr</h4>
-          <p>Modernizr is an open-source JavaScript library that helps you build the next generation of HTML5 and CSS3-powered websites.</p>
-
-        </div>
-      </div>
-
-      <div class="footer">
-        <p>♥ from the Yeoman team</p>
-      </div>
+      <div id="graph"></div>
     </div>
+
+<script id="template" type='text/ractive'>
+<h1>Hello</h1>
+  <table class="countries">
+    <thead>
+      <tr><th class="country-label label">Country</th><th><span class="hdi-label label">Human development index</span><span class="rti-label label">Right to information rating</span></th><th>score</th></tr>
+    </thead>
+    {{#countries}}
+      <tr class="data-{{iso2}}" data-country="{{country}}" >
+        <td class="country"><a href="#/country/{{iso2}}">{{country}}</a></td>
+        <td class="results">
+          <div class="result-wrapper">
+            <a class="hdi" href="#" title="" style="width: {{humandevelopmentindex *100*0.5}}%;" data-title=""></a>
+            <a class="rti" href="" title="" style="width: {{rtiratingnormatized *100*0.5}}%;" data-title=""></a>
+          </div>
+        </td>
+        <td class="result-score"></td>
+      </tr>
+    {{/countries}}
+  </table>
+</script>
+
+
+
+<script type="text/javascript">
+
+  function calculateCSSWidth(value) {
+    return value * 100;
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig"
+    Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false } )
+  })
+
+  function showInfo(data) {
+    var countryData = data.Graph.elements;
+    // Get worksheet named Graph
+    cc = {countries: countryData};
+    console.log(data);
+    //$('#fullTable').html(ich.countries(cc));
+
+    var ractive = new Ractive({
+      el: '#graph',
+      template: '#template',
+      data: {countries: countryData}
+    });
+
+  }
+
+
+
+</script>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -76,29 +97,22 @@
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
 
+    <!-- comment:using cdn as open data handbook does -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.2.min.js"><\/script>')</script>
+
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/tabletop/src/tabletop.js"></script>
+    <script src="/bower_components/ractive/ractive.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js scripts/plugins.js -->
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-        <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-        <!-- endbuild -->
+    <!-- build:js scripts/plugins.js -->
+    <!-- endbuild -->
 
-        <!-- build:js scripts/main.js -->
-        <script src="scripts/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js scripts/main.js -->
+    <script src="scripts/main.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

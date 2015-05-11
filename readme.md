@@ -5,8 +5,7 @@
 
 git clone https://github.com/nigelbabu/OD-Common-Assessment
 cd OD-Common-Assessment
-npm install -g sheetsee
-npm install -g handlebars
+bower install
 
 ## Run
 

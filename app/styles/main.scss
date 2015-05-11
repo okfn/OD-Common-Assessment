@@ -1,69 +1,87 @@
 $icon-font-path: '../fonts/';
 
 // bower:scss
-@import "bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+// @import "bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
 
-/* Space out content a bit */
 body {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
+.container {
   padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+.countries {
+  border-top: 1px dashed #5f5f5f;
+  padding-top: 1em;
+  display: block;
+  thead {
+    border-bottom: 1em solid white;
   }
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+  tr {
+    border-bottom: 0.5em solid white;
   }
-}
+  th, td {
+    font-weight: 300;
+    font-size: 1rem;
+  }
+  th {
+    text-transform: uppercase;
+    text-align: center;
+    color: #fff;
+    font-size: 0.8rem;
+  }
+  .rti-label, .hdi-label {
+    width: 50%;
+    border: 1px solid #000;
+  }
+  .results a {
+    float: left;
+    height: 20px;
+    display: block;
+    border-right: 1px solid #eee;
+  }
+  .label, .hdi, .rti {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    line-height: 1.42857143;
+  }
+  .country {
+    padding-left: 1em;
+  }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
-  p + h4 {
-    margin-top: 28px;
+  .rti, .rti-label {
+    background-color: #50b805;
+    border-color: #50b805;
+  }
+
+  .hdi, .hdi-label {
+    background-color: #34a1e3;
+    border-color: #34a1e3;
+  }
+
+  .country, .country-label {
+    background-color: #3c3c3c;
+  }
+  a {
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    display: inline-block;
+  }
+
+  a:link,  a:visited,  a:active {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  td:hover {
+    opacity: 0.60;
   }
 }
 
