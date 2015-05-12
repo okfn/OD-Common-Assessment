@@ -31,16 +31,21 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
+    <header>
+      <div class="container">
+        <h1>Open Data Common Assessment 2015</h1>
+        <!-- <a href="/" title="return to Common Assessment country listing">« COMMON ASSESSMENT HOME</a> -->
+      </div>
+    </header>
     <div class="container">
       <div id="graph"></div>
     </div>
 
 <script id="template" type='text/ractive'>
-<h1>Hello</h1>
+
   <table class="countries">
     <thead>
-      <tr><th class="country-label label">Country</th><th><span class="hdi-label label">Human development index</span><span class="rti-label label">Right to information rating</span></th><th>score</th></tr>
+      <tr><th class="country-label label">Country</th><th><span class="hdi-label label">Human development index</span><span class="rti-label label">Right to information rating</span></th></tr>
     </thead>
     {{#countries}}
       <tr class="data-{{iso2}}" data-country="{{country}}" >
@@ -51,7 +56,6 @@
             <a class="rti" href="" title="" style="width: {{rtiratingnormatized *100*0.5}}%;" data-title=""></a>
           </div>
         </td>
-        <td class="result-score"></td>
       </tr>
     {{/countries}}
   </table>

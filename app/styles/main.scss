@@ -16,20 +16,45 @@ body {
   margin-left: auto;
 }
 
+header {
+  background-color: #535353;
+  color: #fff;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 200;
+    display: inline-block;
+    line-height: 0.9;
+  }
+
+  a {
+    color: #4fb906;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.8rem;
+    float: right;
+    line-height: 4;
+  }
+  a:hover {
+    color: #fff;
+  }
+}
+
 .countries {
   border-top: 1px dashed #5f5f5f;
   padding-top: 1em;
   display: block;
+
   thead {
-    border-bottom: 1em solid white;
+    border-bottom: 1em solid #fff;
   }
   tr {
-    border-bottom: 0.5em solid white;
+    border-bottom: 0.5em solid #fff;
   }
-  td:first-child {
-    margin-right: 1em;
 
-  border-spacing: 5px;
+  td:first-child, th:first-child {
+    margin-right: 1em;
+    border-right: 0.5em solid #fff;
   }
   th, td {
     font-weight: 300;
@@ -40,6 +65,9 @@ body {
     text-align: center;
     color: #fff;
     font-size: 0.8rem;
+  }
+  .hdi-label {
+    margin-right: 0.35em;
   }
   .rti-label, .hdi-label {
     width: 50%;
@@ -85,7 +113,8 @@ body {
     text-decoration: none;
   }
 
-  td:hover {
+  td:first-child:hover,
+  td a:hover {
     opacity: 0.60;
   }
 }
