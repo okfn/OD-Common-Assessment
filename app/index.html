@@ -41,7 +41,19 @@
       <div id="graph"></div>
     </div>
 
-<script id="template" type='text/ractive'>
+<script id='template-filter' type='text/ractive'>
+
+</script>
+
+<script id='template-table' type='text/ractive'>
+  <div class="filter">
+    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+      <span>Filter</span> <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li>apple</li>
+    </ul>
+  </div>
 
   <table class="countries">
     <thead>
@@ -78,6 +90,8 @@
     <!-- bower:js -->
 <!--     // <script src="/bower_components/tabletop/src/tabletop.js"></script>
     // <script src="/bower_components/ractive/ractive.js"></script> -->
+
+    <script src="/bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -103,7 +117,7 @@
         var ractive = new Ractive({
           debug: true,
           el: '#graph',
-          template: '#template',
+          template: '#template-table',
           data: {countries: countryData}
         });
 
