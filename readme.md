@@ -9,8 +9,11 @@ npm install
 bower install
 
 ## Run
-
 gulp serve
+
+## Build for production
+gulp
+deploy the distribution folder
 
 ## License
 

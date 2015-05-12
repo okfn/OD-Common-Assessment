@@ -26,6 +26,11 @@ body {
   tr {
     border-bottom: 0.5em solid white;
   }
+  td:first-child {
+    margin-right: 1em;
+
+  border-spacing: 5px;
+  }
   th, td {
     font-weight: 300;
     font-size: 1rem;
@@ -47,12 +52,12 @@ body {
     border-right: 1px solid #eee;
   }
   .label, .hdi, .rti {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px 1em 5px 1em;
     line-height: 1.42857143;
   }
   .country {
     padding-left: 1em;
+    padding-right: 1em;
   }
 
   .rti, .rti-label {
