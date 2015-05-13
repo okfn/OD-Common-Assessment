@@ -106,12 +106,12 @@
           return value * 100;
       }
 
-      function showInfo(data) {
-        var countryData = data.Graph.elements;
-        console.log(data);
+      function showInfo(data, tabletop) {
+        var countryData = tabletop.sheets('Graph').elements;
+        console.log(countryData);
         // Get worksheet named Graph
         var cc = {countries: countryData};
-        console.log(countryData);
+        console.log(data);
         //$('#fullTable').html(ich.countries(cc));
 
         var ractive = new Ractive({
@@ -125,7 +125,7 @@
       }
       document.addEventListener('DOMContentLoaded', function() {
           var URL = '1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig';
-          Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false } );
+          Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false, prettyColumnNames: false } );
       });
     </script>
 </body>
