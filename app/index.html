@@ -133,6 +133,13 @@
         'Languages': { 'options': ['Afrikaans','Albanian','Amharic','Arabic','Armenian','Aymara','Azerbaijani','Belarusian','Bengali','Bislama','Bosnian','Bulgarian','Burmese','Cantonese','Carolinian','Catalan','Chamorro','Chewa','Chichewa','Chinese','Comorian','Coptic','Croatian','Czech','Danish','Dari','Dhiwehi','Dutch','Dzongkha','English','Estonian','Faroese','Fijian','Filipino','Finnish','French','Fula','Georgian','German','Greek','Guaraní','Guernésiais','Gujarati','HaitianCreole','Hausa','Hebrew','Hindi','HiriMoto','Hungarian','Icelandic','Igbo','Indonesian','Irish','Italian','Japanese','Jèrriais','Kalasllisut','Kannada','Kazakh','Khmer','Kinyarwanda','Kirghiz','Kiribati','Kirundi','Korean','Kosraean','Kurdish','Lao','Latin','Latvian','Lithuanian','Luxembourgish','Macedonian','Malagasy','Malay','Malayalam','Malaysian','Maltese','Mandarin','Manx','Maori','Marathi','Marshallese','Mongolian','Montenegrin','Nauruan','Nepali','Niuean','Norwegian','Orija','Oromo','Palauan','Papiamento','Pashto','Persian','Polish','Portuguese','Punjabi','Quechua','Romanian','Romansh','Russian','Samoan','Scots','Scottish Gaelic','Serbian','Shona','Sinhala','Slovak','Slovene','Somali','Sotho','Spanish','Swahili','Swazi','Swedish','Taiwanese','Tajik','Tamazight','Tamil','Tetum','Thai','Tigrinya','TokPisin','Tokelauan','Tongan','Turkish','Turkmen','Tuvaluan','Ukrainian','Urdu','Uzbek','Vietnamese','WestFrisian','Xhosa','Yoruba','Zulu'] }
       }
 
+      function bindDropdownEvents() {
+          $('#filter-dropdown').click(function(e) {
+              console.log('stop');
+                  e.stopPropagation();
+          });
+      }
+
       function showInfo(data, tabletop) {
         var countryData = tabletop.sheets("Graph").elements;
         console.log(data);
