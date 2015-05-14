@@ -46,8 +46,8 @@
   <div class="filter">
     <div class="btn-group">
       <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text">Filter </span><span class="caret"></span></button>
-
-      <ul id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
+      <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
+      <ul>
         {{#items:item}}
             <li class="form-group">
               <label for="" class="col-md-5 control-label">{{item}}</label>
@@ -60,9 +60,9 @@
               </div>
             </li>
         {{/items}}
-
       </ul>
-
+      <button id="filter-apply" class="btn btn-default apply" type="button">Apply</button>
+      </div>
     </div>
   </div>
 
