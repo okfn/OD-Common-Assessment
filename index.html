@@ -1,6 +1,6 @@
 <!doctype html> <html class="no-js"> <head> <meta charset="utf-8"> <meta name="description"> <meta name="viewport" content="width=device-width, initial-scale=1"> <title>OD Common Assessment</title> <link rel="shortcut icon" href="http://new.opendatahandbook.org/favicon.ico"> <link rel="apple-touch-icon" href="http://new.opendatahandbook.org/apple-touch-icon.png"> <link rel="stylesheet" href="styles/main.css"> <script src="scripts/vendor/modernizr.js"></script> <link href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic" rel="stylesheet" type="text/css"> <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css"> <script src="https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.3.5/tabletop.min.js"></script> <script src="http://cdn.ractivejs.org/latest/ractive.js"></script> </head> <body> <!--[if lt IE 10]>
  <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
- <![endif]--> <header> <div class="container"> <h1>Open Data Common Assessment 2015</h1>  </div> </header> <div class="container"> <div id="graph"></div> </div> <script id="template-filter" type="text/ractive"> </script> <script id="template-table" type="text/ractive"> <div class="filter"> <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false"> <span>Filter</span> <span class="caret"></span> </button> <ul class="dropdown-menu" role="menu"> <li>apple</li> </ul> </div> <table class="countries"> <thead> <tr><th class="country-label label">Country</th><th><span class="hdi-label label">Human development index</span><span class="rti-label label">Right to information rating</span></th></tr> </thead> {{#countries}} <tr class="data-{{iso2}}" data-country="{{country}}" > <td class="country"><a href="#/country/{{iso2}}">{{country}}</a></td> <td class="results"> <div class="result-wrapper"> <a class="hdi" href="#" title="" style="width: {{humandevelopmentindex *100*0.5}}%;" data-title=""></a> <a class="rti" href="" title="" style="width: {{rtiratingnormatized *100*0.5}}%;" data-title=""></a> </div> </td> </tr> {{/countries}} </table> </script>  <script>
+ <![endif]--> <header> <div class="container-fluid"> <h1>Open Data Common Assessment 2015</h1>  </div> </header> <div class="container-fluid"> <div id="table"></div> </div> <script id="template-filter" type="text/ractive"> <div class="filter"> <div class="btn-group"> <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text">Filter </span><span class="caret"></span></button> <ul id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu"> {{#items:item}} <li class="form-group"> <label for="" class="col-md-5 control-label">{{item}}</label> <div class="col-md-7"> <select id="" class="form-control"> {{#options}}{{#.}} <option>{{.}}</option> {{/.}}{{/options}} </select> </div> </li> {{/items}} </ul> </div> </div> </script> <script id="template-table" type="text/ractive"> <div id="filter"></div> <table class="countries"> <thead> <tr><th class="country-label theader">Country</th><th><span class="hdi-label theader">Human development index</span><span class="rti-label theader">Right to information rating</span></th></tr> </thead> {{#countries}} <tr class="data-{{iso2}}" data-country="{{country}}" > <td class="country"><a href="#/country/{{iso2}}">{{country}}</a></td> <td class="results"> <div class="result-wrapper"> <a class="hdi" href="#" title="" style="width: {{humandevelopmentindex *100*0.5}}%;" data-title=""></a> <a class="rti" href="" title="" style="width: {{rtiratingnormatized *100*0.5}}%;" data-title=""></a> </div> </td> </tr> {{/countries}} </table> </script>  <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
       e=o.createElement(i);r=o.getElementsByTagName(i)[0];
@@ -8,29 +8,52 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script> <script src="scripts/vendor.js"></script> <script src="scripts/main.js"></script> <script>
-      function calculateCSSWidth(value) {
-          return value * 100;
+
+      var filterData = {
+        'Human Development Index': { 'options': ['Very high human development','High human development', 'Medium human development', 'Low human development']},
+        'Population':{ 'options': ['high population','very high population','upper medium population','lower medium population','low population','very low population'] },
+        'FOAI Exists': { 'options': ['All', 'YES' , 'NO'] },
+        'System of internal governance':['Unitary state','Unitary monarchy','Federal state','Regionalised unitary state','Regionalised unitary monarchy'],
+        'System of governance': { 'options': ['Full presidential system','Parliamentary republic','Semi-presidential system','Constitutional monarchy with ceremonial monarch','Full presidential system with a prime minister','Constitutional monarchy with active monarch','Mixed republican system','Absolute monarchy','Single Party States','Transitional states','Theocracy','Directorial system','Military junta'] },
+        'Fragile State': { 'options': ['All', 'YES' , 'NO'] },
+        'OGP Senior leadership': { 'options': ['All', 'YES' , 'NO'] },
+        'g20 member': { 'options': ['All', 'YES' , 'NO'] },
+        'g7 member': { 'options': ['All', 'YES' , 'NO']},
+        'World bank lending group': { 'options': ['High-income economies ($12,616 or more)','Upper-middle-income economies ($4,086 to $12,615)','Lower-middle-income economies ($1,036 to $4,085)','Low-income-economies ($ 1.035 or less)'] },
+        'Region': { 'options': ['Europe','North America','Middle America & Caribbean','South America','Middle East and North Africa','Sub-Saharan Africa','Central Asia','East Asia and Pacific','South Asia'] },
+        'Languages': { 'options': ['Afrikaans','Albanian','Amharic','Arabic','Armenian','Aymara','Azerbaijani','Belarusian','Bengali','Bislama','Bosnian','Bulgarian','Burmese','Cantonese','Carolinian','Catalan','Chamorro','Chewa','Chichewa','Chinese','Comorian','Coptic','Croatian','Czech','Danish','Dari','Dhiwehi','Dutch','Dzongkha','English','Estonian','Faroese','Fijian','Filipino','Finnish','French','Fula','Georgian','German','Greek','Guaraní','Guernésiais','Gujarati','HaitianCreole','Hausa','Hebrew','Hindi','HiriMoto','Hungarian','Icelandic','Igbo','Indonesian','Irish','Italian','Japanese','Jèrriais','Kalasllisut','Kannada','Kazakh','Khmer','Kinyarwanda','Kirghiz','Kiribati','Kirundi','Korean','Kosraean','Kurdish','Lao','Latin','Latvian','Lithuanian','Luxembourgish','Macedonian','Malagasy','Malay','Malayalam','Malaysian','Maltese','Mandarin','Manx','Maori','Marathi','Marshallese','Mongolian','Montenegrin','Nauruan','Nepali','Niuean','Norwegian','Orija','Oromo','Palauan','Papiamento','Pashto','Persian','Polish','Portuguese','Punjabi','Quechua','Romanian','Romansh','Russian','Samoan','Scots','Scottish Gaelic','Serbian','Shona','Sinhala','Slovak','Slovene','Somali','Sotho','Spanish','Swahili','Swazi','Swedish','Taiwanese','Tajik','Tamazight','Tamil','Tetum','Thai','Tigrinya','TokPisin','Tokelauan','Tongan','Turkish','Turkmen','Tuvaluan','Ukrainian','Urdu','Uzbek','Vietnamese','WestFrisian','Xhosa','Yoruba','Zulu'] }
+      }
+
+      function bindDropdownEvents() {
+          $('#filter-dropdown').click(function(e) {
+              console.log('stop');
+                  e.stopPropagation();
+          });
       }
 
       function showInfo(data, tabletop) {
-        var countryData = tabletop.sheets('Graph').elements;
-        console.log(countryData);
-        // Get worksheet named Graph
-        var cc = {countries: countryData};
+        var countryData = tabletop.sheets("Graph").elements;
         console.log(data);
-        //$('#fullTable').html(ich.countries(cc));
+        //$("#fullTable").html(ich.countries(cc));
 
-        var ractive = new Ractive({
-          debug: true,
-          el: '#graph',
-          template: '#template-table',
+        var bindTable = new Ractive({
+          el: "#table",
+          template: "#template-table",
           data: {countries: countryData}
         });
 
-        console.log(ractive.template);
+        var bindFilter = new Ractive({
+          el: "#filter",
+          template: "#template-filter",
+          data: { items: filterData }
+        });
+
+        bindDropdownEvents();
+
       }
-      document.addEventListener('DOMContentLoaded', function() {
-          var URL = '1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig';
+
+      document.addEventListener("DOMContentLoaded", function() {
+          var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig";
           Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false, prettyColumnNames: false } );
       });
     </script> </body> </html> 
