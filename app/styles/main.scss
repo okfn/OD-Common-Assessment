@@ -1,8 +1,9 @@
 // $icon-font-path: '../fonts/';
 
 // bower:scss
-// @import "bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
 // endbower
+
 
 
 $primary-color: #535353;
@@ -26,17 +27,19 @@ header {
   color: $text-color;
 
   h1 {
-    font-size: 1.5rem;
+    font-size: 2em;
     font-weight: 200;
     display: inline-block;
-    line-height: 0.9;
+    line-height: 1.2;
+    margin-top: 20px;
+    margin-bottom: 10px;
   }
 
   a {
     color: #4fb906;
     text-decoration: none;
     font-weight: 400;
-    font-size: 0.8rem;
+    font-size: 0.8em;
     float: right;
     line-height: 4;
   }
@@ -46,86 +49,56 @@ header {
 }
 
 /* A little bootstrap modification */
+#filter {
+  text-align: right;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
 .filter {
+  .form-group {
+    margin-bottom: 5px;
+  }
+
+  label {
+    font-weight: 300;
+    font-size: 0.9em;
+    padding-right: 0;
+  }
+  .btn-default, .open .btn-default {
+    text-transform: uppercase;
+    background-color: $primary-color;
+    color: $text-color;
+    box-shadow: none;
+    border-radius: 0;
+    border: none;
+  }
+
+  .btn {
+    padding: 0 0.8em;
+    font-size: 1.2em;
+    font-weight: 400;
+    line-height: 2.0;
+  }
+
+  .text {
+    text-align: left;
+    width: 350px;
+    display: inline-block;
+  }
+  .caret {
+    border-top: 5px dashed;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+  }
+  .dropdown-menu {
+      border: 1px solid black;
+      border-radius: 0;
+      margin-top: 0;
+  }
 
 }
-
-.btn-default {
-  text-transform: uppercase;
-  background-color: $primary-color;
-  color: $text-color;
-}
-
-.btn {
-  padding: 0 0.8em;
-  width: 14em;
-  font-size: 1.1rem;
-  font-weight: 400;
-  line-height: 1.42857143;
-  text-align: left;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
-  border: 1px solid transparent;
-}
-
-.btn-lg .caret {
-  border-width: 5px 5px 0;
-  border-bottom-width: 0;
-}
-
-.btn .caret {
-  margin-left: 0;
-  float: right;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-
-.caret {
-  display: inline-block;
-  width: 0;
-  height: 0;
-  margin-left: 2px;
-  vertical-align: middle;
-  border-top: 5px dashed;
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  display: none;
-  float: left;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
-  font-size: 14px;
-  text-align: left;
-  list-style: none;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0,0,0,.15);
-  border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
-}
-
-.open>.dropdown-menu {
-  display: block;
-}
-/* end a little bootstrap */
+// /* end a little bootstrap */
 
 .countries {
   border-top: 1px dashed #5f5f5f;
@@ -145,13 +118,16 @@ header {
   }
   th, td {
     font-weight: 300;
-    font-size: 1rem;
   }
   th {
+    font-size: 1em;
     text-transform: uppercase;
     text-align: center;
     color: $text-color;
-    font-size: 0.8rem;
+    font-size: 1em;
+  }
+  td {
+    font-size: 1.2em;
   }
   .hdi-label {
     margin-right: 0.35em;
@@ -162,11 +138,11 @@ header {
   }
   .results a {
     float: left;
-    height: 20px;
+    height: 1.6em;
     display: block;
     border-right: 1px solid #eee;
   }
-  .label, .hdi, .rti {
+  .theader, .hdi, .rti {
     padding: 5px 1em 5px 1em;
     line-height: 1.42857143;
   }

@@ -32,34 +32,38 @@
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <header>
-      <div class="container">
+      <div class="container-fluid">
         <h1>Open Data Common Assessment 2015</h1>
         <!-- <a href="/" title="return to Common Assessment country listing">« COMMON ASSESSMENT HOME</a> -->
       </div>
     </header>
-    <div class="container">
+    <div class="container-fluid">
       <div id="table"></div>
     </div>
 
 <script id="template-filter" type="text/ractive">
 
   <div class="filter">
-    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-      <span>Filter</span> <span class="caret"></span>
-    </button>
-    <form>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <select class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
-        </li>
+    <div class="btn-group">
+      <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text">Filter </span><span class="caret"></span></button>
+
+      <ul id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
+        {{#items:item}}
+            <li class="form-group">
+              <label for="" class="col-md-5 control-label">{{item}}</label>
+              <div class="col-md-7">
+                <select id="" class="form-control">
+                {{#options}}{{#.}}
+                  <option>{{.}}</option>
+                {{/.}}{{/options}}
+                </select>
+              </div>
+            </li>
+        {{/items}}
+
       </ul>
-    </form>
+
+    </div>
   </div>
 
 </script>
@@ -68,7 +72,7 @@
   <div id="filter"></div>
   <table class="countries">
     <thead>
-      <tr><th class="country-label label">Country</th><th><span class="hdi-label label">Human development index</span><span class="rti-label label">Right to information rating</span></th></tr>
+      <tr><th class="country-label theader">Country</th><th><span class="hdi-label theader">Human development index</span><span class="rti-label theader">Right to information rating</span></th></tr>
     </thead>
     {{#countries}}
       <tr class="data-{{iso2}}" data-country="{{country}}" >
@@ -114,6 +118,21 @@
     <!-- endbuild -->
     <script>
 
+      var filterData = {
+        'Human Development Index': { 'options': ['Very high human development','High human development', 'Medium human development', 'Low human development']},
+        'Population':{ 'options': ['high population','very high population','upper medium population','lower medium population','low population','very low population'] },
+        'FOAI Exists': { 'options': ['All', 'YES' , 'NO'] },
+        'System of internal governance':['Unitary state','Unitary monarchy','Federal state','Regionalised unitary state','Regionalised unitary monarchy'],
+        'System of governance': { 'options': ['Full presidential system','Parliamentary republic','Semi-presidential system','Constitutional monarchy with ceremonial monarch','Full presidential system with a prime minister','Constitutional monarchy with active monarch','Mixed republican system','Absolute monarchy','Single Party States','Transitional states','Theocracy','Directorial system','Military junta'] },
+        'Fragile State': { 'options': ['All', 'YES' , 'NO'] },
+        'OGP Senior leadership': { 'options': ['All', 'YES' , 'NO'] },
+        'g20 member': { 'options': ['All', 'YES' , 'NO'] },
+        'g7 member': { 'options': ['All', 'YES' , 'NO']},
+        'World bank lending group': { 'options': ['High-income economies ($12,616 or more)','Upper-middle-income economies ($4,086 to $12,615)','Lower-middle-income economies ($1,036 to $4,085)','Low-income-economies ($ 1.035 or less)'] },
+        'Region': { 'options': ['Europe','North America','Middle America & Caribbean','South America','Middle East and North Africa','Sub-Saharan Africa','Central Asia','East Asia and Pacific','South Asia'] },
+        'Languages': { 'options': ['Afrikaans','Albanian','Amharic','Arabic','Armenian','Aymara','Azerbaijani','Belarusian','Bengali','Bislama','Bosnian','Bulgarian','Burmese','Cantonese','Carolinian','Catalan','Chamorro','Chewa','Chichewa','Chinese','Comorian','Coptic','Croatian','Czech','Danish','Dari','Dhiwehi','Dutch','Dzongkha','English','Estonian','Faroese','Fijian','Filipino','Finnish','French','Fula','Georgian','German','Greek','Guaraní','Guernésiais','Gujarati','HaitianCreole','Hausa','Hebrew','Hindi','HiriMoto','Hungarian','Icelandic','Igbo','Indonesian','Irish','Italian','Japanese','Jèrriais','Kalasllisut','Kannada','Kazakh','Khmer','Kinyarwanda','Kirghiz','Kiribati','Kirundi','Korean','Kosraean','Kurdish','Lao','Latin','Latvian','Lithuanian','Luxembourgish','Macedonian','Malagasy','Malay','Malayalam','Malaysian','Maltese','Mandarin','Manx','Maori','Marathi','Marshallese','Mongolian','Montenegrin','Nauruan','Nepali','Niuean','Norwegian','Orija','Oromo','Palauan','Papiamento','Pashto','Persian','Polish','Portuguese','Punjabi','Quechua','Romanian','Romansh','Russian','Samoan','Scots','Scottish Gaelic','Serbian','Shona','Sinhala','Slovak','Slovene','Somali','Sotho','Spanish','Swahili','Swazi','Swedish','Taiwanese','Tajik','Tamazight','Tamil','Tetum','Thai','Tigrinya','TokPisin','Tokelauan','Tongan','Turkish','Turkmen','Tuvaluan','Ukrainian','Urdu','Uzbek','Vietnamese','WestFrisian','Xhosa','Yoruba','Zulu'] }
+      }
+
       function showInfo(data, tabletop) {
         var countryData = tabletop.sheets("Graph").elements;
         console.log(data);
@@ -128,10 +147,13 @@
         var bindFilter = new Ractive({
           el: "#filter",
           template: "#template-filter",
-          data: {countries: countryData}
+          data: { items: filterData }
         });
 
+        bindDropdownEvents();
+
       }
+
       document.addEventListener("DOMContentLoaded", function() {
           var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig";
           Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false, prettyColumnNames: false } );
