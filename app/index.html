@@ -74,17 +74,19 @@
     <thead>
       <tr><th class="country-label theader">Country</th><th><span class="hdi-label theader">Human development index</span><span class="rti-label theader">Right to information rating</span></th></tr>
     </thead>
-    {{#countries}}
-      <tr class="data-{{iso2}}" data-country="{{country}}" >
-        <td class="country"><a href="#/country/{{iso2}}">{{country}}</a></td>
+      {{#places}}
+      <tr class="data-{{id}}" data-country="{{title}}" >
+        <td class="country"><a href="#/country/{{id}}">{{title}}</a></td>
+
         <td class="results">
           <div class="result-wrapper">
-            <a class="hdi" href="#" title="" style="width: {{humandevelopmentindex *100*0.5}}%;" data-title=""></a>
-            <a class="rti" href="" title="" style="width: {{rtiratingnormatized *100*0.5}}%;" data-title=""></a>
+            <a class="hdi" href="#" title="" style="width: {{1 *100*0.5}}%;" data-title=""></a>
+            <a class="rti" href="" title="" style="width: {{1 *100*0.5}}%;" data-title=""></a>
           </div>
         </td>
-      </tr>
-    {{/countries}}
+
+      </tr>{{/places}}
+
   </table>
 </script>
 
@@ -114,60 +116,13 @@
     <!-- endbuild -->
 
     <!-- build:js scripts/main.js -->
+    <script src="scripts/services.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
     <script>
 
-      var filterData = {
-        'Human Development Index': { 'options': ['Very high human development','High human development', 'Medium human development', 'Low human development']},
-        'Population':{ 'options': ['high population','very high population','upper medium population','lower medium population','low population','very low population'] },
-        'FOAI Exists': { 'options': ['All', 'YES' , 'NO'] },
-        'System of internal governance':['Unitary state','Unitary monarchy','Federal state','Regionalised unitary state','Regionalised unitary monarchy'],
-        'System of governance': { 'options': ['Full presidential system','Parliamentary republic','Semi-presidential system','Constitutional monarchy with ceremonial monarch','Full presidential system with a prime minister','Constitutional monarchy with active monarch','Mixed republican system','Absolute monarchy','Single Party States','Transitional states','Theocracy','Directorial system','Military junta'] },
-        'Fragile State': { 'options': ['All', 'YES' , 'NO'] },
-        'OGP Senior leadership': { 'options': ['All', 'YES' , 'NO'] },
-        'g20 member': { 'options': ['All', 'YES' , 'NO'] },
-        'g7 member': { 'options': ['All', 'YES' , 'NO']},
-        'World bank lending group': { 'options': ['High-income economies ($12,616 or more)','Upper-middle-income economies ($4,086 to $12,615)','Lower-middle-income economies ($1,036 to $4,085)','Low-income-economies ($ 1.035 or less)'] },
-        'Region': { 'options': ['Europe','North America','Middle America & Caribbean','South America','Middle East and North Africa','Sub-Saharan Africa','Central Asia','East Asia and Pacific','South Asia'] },
-        'Languages': { 'options': ['Afrikaans','Albanian','Amharic','Arabic','Armenian','Aymara','Azerbaijani','Belarusian','Bengali','Bislama','Bosnian','Bulgarian','Burmese','Cantonese','Carolinian','Catalan','Chamorro','Chewa','Chichewa','Chinese','Comorian','Coptic','Croatian','Czech','Danish','Dari','Dhiwehi','Dutch','Dzongkha','English','Estonian','Faroese','Fijian','Filipino','Finnish','French','Fula','Georgian','German','Greek','Guaraní','Guernésiais','Gujarati','HaitianCreole','Hausa','Hebrew','Hindi','HiriMoto','Hungarian','Icelandic','Igbo','Indonesian','Irish','Italian','Japanese','Jèrriais','Kalasllisut','Kannada','Kazakh','Khmer','Kinyarwanda','Kirghiz','Kiribati','Kirundi','Korean','Kosraean','Kurdish','Lao','Latin','Latvian','Lithuanian','Luxembourgish','Macedonian','Malagasy','Malay','Malayalam','Malaysian','Maltese','Mandarin','Manx','Maori','Marathi','Marshallese','Mongolian','Montenegrin','Nauruan','Nepali','Niuean','Norwegian','Orija','Oromo','Palauan','Papiamento','Pashto','Persian','Polish','Portuguese','Punjabi','Quechua','Romanian','Romansh','Russian','Samoan','Scots','Scottish Gaelic','Serbian','Shona','Sinhala','Slovak','Slovene','Somali','Sotho','Spanish','Swahili','Swazi','Swedish','Taiwanese','Tajik','Tamazight','Tamil','Tetum','Thai','Tigrinya','TokPisin','Tokelauan','Tongan','Turkish','Turkmen','Tuvaluan','Ukrainian','Urdu','Uzbek','Vietnamese','WestFrisian','Xhosa','Yoruba','Zulu'] }
-      }
-
-      function bindDropdownEvents() {
-          $('#filter-dropdown ul').click(function(e) {
-              console.log('stop');
-                  e.stopPropagation();
-          });
-      }
-
-      function showInfo(data, tabletop) {
-        var countryData = tabletop.sheets("Graph").elements;
-        console.log(data);
-        //$("#fullTable").html(ich.countries(cc));
-
-        var bindTable = new Ractive({
-          el: "#table",
-          template: "#template-table",
-          data: {countries: countryData}
-        });
-
-        var bindFilter = new Ractive({
-          el: "#filter",
-          template: "#template-filter",
-          data: { items: filterData }
-        });
-
-        bindDropdownEvents();
-
-      }
-
       $(document).ready(function() {
-          var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig";
-          Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false, prettyColumnNames: false } );
-
-          $('#apply').on('click', function() {
-              $('#filter-dropdown').trigger('hide.bs.dropdown');
-          });
+          app.start();
       });
 
     </script>
