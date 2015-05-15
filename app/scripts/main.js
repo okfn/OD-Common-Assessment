@@ -18,9 +18,9 @@ var app = (function () {
     }
     function showInfo(data, tabletop) {
         // deconstruct data with tabletop
-        var placesData = tabletop.sheets("places").elements;
-        var indicatorsData = tabletop.sheets("indicators").elements;
-        var valuesData = tabletop.sheets("values").elements;
+        var placesData = tabletop.sheets('places').elements;
+        var indicatorsData = tabletop.sheets('indicators').elements;
+        var valuesData = tabletop.sheets('values').elements;
 
 
         //console.log(placesData);
@@ -28,16 +28,16 @@ var app = (function () {
         //console.log(valuesData);
         // bind to templates
         var indicatorsForScoring = indicatorsData.filter(function(indicator) {
-                                        return indicator.scoring == 'Y';
+                                        return indicator.scoring === 'Y';
                                     }).map(function(indicator) {
-                                        return indicator.id
+                                        return indicator.id;
                                     });
 
         var resultsData = placesData.map(function(place) {
             // for every country, get all indicator values
-            place['indicators'] = [];
+            place.indicators = [];
             valuesData.filter(function(value) {
-                if(value['place-id'] == place['id']) {
+                if(value['place-id'] === place.id) {
                     place['indicators'].push(value);
                 }
             });
@@ -48,7 +48,7 @@ var app = (function () {
         var visibleIndicators = indicatorsForScoring;
         //  console.log(valuesData)
         //var indicatorValuesForScoring =
-        console.log(resultsData  )
+        console.log(resultsData  );
         // for each place
             // get indicator value
         //place indicator indicator indicator score
@@ -62,7 +62,7 @@ var app = (function () {
             // return true;
         }
 
-        var bindTable = bindToTemplate("#table", "#template-table", {"places": resultsData
+        var bindTable = bindToTemplate('#table', '#template-table', {'places': resultsData
         });
 
 // visibleIndicator: function() { return true;     }
