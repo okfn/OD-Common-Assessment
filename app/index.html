@@ -134,7 +134,7 @@
       }
 
       function bindDropdownEvents() {
-          $('#filter-dropdown').click(function(e) {
+          $('#filter-dropdown ul').click(function(e) {
               console.log('stop');
                   e.stopPropagation();
           });
@@ -161,10 +161,15 @@
 
       }
 
-      document.addEventListener("DOMContentLoaded", function() {
+      $(document).ready(function() {
           var URL = "1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig";
           Tabletop.init( { key: URL, callback: showInfo, simpleSheet: false, prettyColumnNames: false } );
+
+          $('#apply').on('click', function() {
+              $('#filter-dropdown').trigger('hide.bs.dropdown');
+          });
       });
+
     </script>
 </body>
 </html>
