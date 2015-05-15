@@ -148,7 +148,7 @@ header {
     display: block;
     border-right: 1px solid #eee;
   }
-  .theader, .hdi, .rti {
+  .theader, .indicator{
     padding: 5px 1em 5px 1em;
     line-height: 1.42857143;
   }
@@ -157,12 +157,12 @@ header {
     padding-right: 1em;
   }
 
-  .rti, .rti-label {
+  .indicator, .rti-label {
     background-color: $rti;
     border-color: $rti;
   }
 
-  .hdi, .hdi-label {
+  .indicator, .hdi-label {
     background-color: $hdi;
     border-color: $hdi;
   }

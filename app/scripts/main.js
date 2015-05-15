@@ -32,20 +32,23 @@ var app = (function () {
                                     }).map(function(indicator) {
                                         return indicator.id
                                     });
-        var resultsData = placesData.map(function(place) {
-// for every country, get relevant indicator values
 
+        var resultsData = placesData.map(function(place) {
+            // for every country, get all indicator values
+            place['indicators'] = [];
             valuesData.filter(function(value) {
-                //console.log(value)
                 if(value['place-id'] == place['id']) {
-                    place[value['indicator-id']] = value;
+                    place['indicators'].push(value);
                 }
             });
-
+            return place;
         });
+
+
+        var visibleIndicators = indicatorsForScoring;
         //  console.log(valuesData)
         //var indicatorValuesForScoring =
-       // console.log(resultsData  )
+        console.log(resultsData  )
         // for each place
             // get indicator value
         //place indicator indicator indicator score
@@ -53,10 +56,17 @@ var app = (function () {
 
         // visible
         //console.log(indicatorsForScoring);
+        function isVisibleIndicator() {
+            // visibleIndicator
+            // if() return false
+            // return true;
+        }
 
-        var bindTable = bindToTemplate("#table", "#template-table", {"places": resultsData });
+        var bindTable = bindToTemplate("#table", "#template-table", {"places": resultsData
+        });
 
-        //$("#fullTable").html(ich.countries(cc));
+// visibleIndicator: function() { return true;     }
+//         //$("#fullTable").html(ich.countries(cc));
         //  var bindFilter = new Ractive({
         //   el: "#filter",
         //   template: "#template-filter",
