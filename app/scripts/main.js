@@ -24,7 +24,7 @@ var app = (function () {
 
 
         //console.log(placesData);
-        console.log(indicatorsData);
+        //console.log(indicatorsData);
         //console.log(valuesData);
         // bind to templates
         var indicatorsForScoring = indicatorsData.filter(function(indicator) {
@@ -32,23 +32,32 @@ var app = (function () {
                                     }).map(function(indicator) {
                                         return indicator.id;
                                     });
+        var visibleIndicators = indicatorsForScoring;
 
         var resultsData = placesData.map(function(place) {
             // for every country, get all indicator values
-            place.indicators = [];
+            place.values = [];
             valuesData.filter(function(value) {
-                if(value['place-id'] === place.id) {
-                    place['indicators'].push(value);
+                //console.log(value['placeId'],place.id)
+                if(value['placeid'] === place.id) {
+                    // todo: move to partials
+                    value['indicatormeta'] = indicatorsData.filter(function(indicator){
+                        if(value['indicatorid'] === indicator['id']) {
+                            return indicator['id'];
+                        }
+                    })[0];
+                    place['values'].push(value);
                 }
+
             });
+
             return place;
         });
 
-
-        var visibleIndicators = indicatorsForScoring;
         //  console.log(valuesData)
         //var indicatorValuesForScoring =
         console.log(resultsData  );
+        console.log(valuesData);
         // for each place
             // get indicator value
         //place indicator indicator indicator score
@@ -58,14 +67,20 @@ var app = (function () {
         //console.log(indicatorsForScoring);
         function isVisibleIndicator() {
             // visibleIndicator
-            // if() return false
-            // return true;
+           // if(indicatorsForScoring.filter()) return false
+            //return true;
         }
 
-        var bindTable = bindToTemplate('#table', '#template-table', {'places': resultsData
+        var bindTable = bindToTemplate('#table', '#template-table', {
+                places: placesData,
+                visibleIndicators: visibleIndicators,
+                values:valuesData,
+                numberOfVisibleIndicators: function() {
+                    return visibleIndicators.length
+                }
         });
 
-// visibleIndicator: function() { return true;     }
+//
 //         //$("#fullTable").html(ich.countries(cc));
         //  var bindFilter = new Ractive({
         //   el: "#filter",

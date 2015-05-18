@@ -5,11 +5,10 @@
 // endbower
 
 
-
 $primary-color: #535353;
 $text-color: #fff;
 $rti: #50b805;
-$hdi: #34a1e3;
+$default-color: #34a1e3;
 
 body {
   font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -142,15 +141,23 @@ header {
     width: 50%;
     border: 1px solid #000;
   }
+  .results {
+    width: 80%;
+  }
   .results a {
+    width: 0%;
     float: left;
     height: 1.6em;
     display: block;
-    border-right: 1px solid #eee;
+    overflow: hidden;
+    margin-right: 1px;
+    text-align: center;
+  }
+  .thheader {
+    padding: 5px 1em 5px 1em;
   }
   .theader, .indicator{
-    padding: 5px 1em 5px 1em;
-    line-height: 1.42857143;
+     line-height: 1.42857143;
   }
   .country {
     padding-left: 1em;
@@ -163,8 +170,8 @@ header {
   }
 
   .indicator, .hdi-label {
-    background-color: $hdi;
-    border-color: $hdi;
+    background-color: $default-color;
+    border-color: $default-color;
   }
 
   .country, .country-label {
@@ -212,3 +219,5 @@ header {
     border-bottom: 0;
   }
 }
+
+//**

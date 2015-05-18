@@ -74,18 +74,18 @@
     <thead>
       <tr><th class="country-label theader">Country</th><th><!--<span class="hdi-label theader">Human development index</span><span class="rti-label theader">Right to information rating</span>--></th></tr>
     </thead>
+
       {{#places}}
       <tr class="data-{{id}}" data-country="{{title}}" >
         <td class="country"><a href="#/country/{{id}}">{{title}}</a></td>
         <td class="results">
           <div class="result-wrapper">
-            {{#indicators}}
-            <a class="indicator" href="#" title="" style="width: 10%;" data-title=""></a>
-            <a class="indicator" href="" title="" style="width: 10%;" data-title=""></a>
-            {{/indicators}}
+            {{#values}}
+            <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / numberOfVisibleIndicators() }}%;{{/}} background-color: {{indicatormeta.colour}}" data-title="<h3>{{indicatormeta.title}}</h3><p></p><p>{{indicatormeta.description}}</p>">{{normalised}}</a>
+
+            {{/values}}
           </div>
         </td>
-
       </tr>{{/places}}
 
   </table>
