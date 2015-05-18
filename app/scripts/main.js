@@ -8,14 +8,7 @@ var app = (function () {
                   e.stopPropagation();
           });
       }
-    function bindToTemplate(element, template, incomingData) {
-        var bound = new Ractive({
-          el: element,
-          template: template,
-          data: incomingData
-        });
-        return bound;
-    }
+
     function showInfo(data, tabletop) {
         // deconstruct data with tabletop
         var placesData = tabletop.sheets('places').elements;
@@ -26,20 +19,26 @@ var app = (function () {
         //console.log(placesData);
         //console.log(indicatorsData);
         //console.log(valuesData);
-        // bind to templates
-        var indicatorsForScoring = indicatorsData.filter(function(indicator) {
-                                        return indicator.scoring === 'Y';
-                                    }).map(function(indicator) {
-                                        return indicator.id;
-                                    });
-        var visibleIndicators = indicatorsForScoring;
 
+        // Get visible indicators
+        var indicatorsForScoring = {};
+        var countInitialIndicators = 0
+        indicatorsData.filter(function(indicator) {
+            var visible = indicator.scoring === 'Y' && indicator.default === 'Y';
+            if(visible) {
+                countInitialIndicators += 1;
+            }
+            return visible;
+        }).map(function(indicator) {
+            return indicatorsForScoring[indicator.id] = true;
+        });
+
+        // Map variable and indicator data into results
         var resultsData = placesData.map(function(place) {
-            // for every country, get all indicator values
             place.values = [];
             valuesData.filter(function(value) {
-                //console.log(value['placeId'],place.id)
                 if(value['placeid'] === place.id) {
+                    value['indicatorVisible'] = indicatorsForScoring.hasOwnProperty(value['indicatorid']);
                     // todo: move to partials
                     value['indicatormeta'] = indicatorsData.filter(function(indicator){
                         if(value['indicatorid'] === indicator['id']) {
@@ -50,36 +49,68 @@ var app = (function () {
                 }
 
             });
-
             return place;
         });
 
         //  console.log(valuesData)
-        //var indicatorValuesForScoring =
-        console.log(resultsData  );
-        console.log(valuesData);
-        // for each place
-            // get indicator value
-        //place indicator indicator indicator score
-        //
+        console.log(placesData  );
+        //console.log(valuesData);
 
         // visible
-        //console.log(indicatorsForScoring);
-        function isVisibleIndicator() {
-            // visibleIndicator
-           // if(indicatorsForScoring.filter()) return false
-            //return true;
-        }
+        console.log(indicatorsForScoring);
 
-        var bindTable = bindToTemplate('#table', '#template-table', {
+        var ractive = new Ractive({
+            el: '#table',
+            template: '#template-table',
+            data: {
                 places: placesData,
-                visibleIndicators: visibleIndicators,
-                values:valuesData,
-                numberOfVisibleIndicators: function() {
-                    return visibleIndicators.length
+                indicators: indicatorsData,
+
+                scoring : {
+                    scoringIndicators: indicatorsForScoring,
+                    numberOfVisibleIndicators: countInitialIndicators,
+                    score: function (values) {
+                        //console.log(values)
+                        var v = values.filter(function(value){
+                            return value.indicatorVisible;
+                        })
+                        //console.log(v);
+                        var score = 0;
+                        for (var i = 0; i < v.length; i++) {
+                            var value = +v[i]['normalised'];
+                            score += value;
+                        };
+                        return score;
+                    }
+                },
+                sorting : {
+                    sort: function ( array, column, sd ) {
+                        array = array.slice();
+                        return  array.sort( function ( a, b ) {
+                            return a[ column ] < b[ column ] ? -sd : sd;
+                        });
+                    },
+                    column: 'title',
+                    direction: 1
                 }
+            },
+            computed: {
+
+            }
         });
 
+        ractive.on( 'sorting.sort', function ( event, column ) {
+            this.set( 'sorting.column', column );
+            this.set('sorting.direction', this.get('sorting.direction') * -1);
+        });
+
+        ractive.observe('scoring.scoringIndicators.*', function(newValue, oldValue, keypath) {
+            console.log(newValue, oldValue, keypath);
+        });
+
+       // bindTable.set('data.numberOfVisibleIndicators', countInitialIndicators);
+       //console.log(bindTable.get(numberOfVisibleIndicators))
+        //this.set( 'items[*].completed', event.node.checked );
 //
 //         //$("#fullTable").html(ich.countries(cc));
         //  var bindFilter = new Ractive({

@@ -8,5 +8,10 @@
     "tabletop": "~1.4.0",
     "ractive": "~0.7.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "ractive-events-tap": "~0.1.2"
+  },
+  "resolutions": {
+    "ractive": "~0.7.3"
+  }
 }
