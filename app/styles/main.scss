@@ -7,6 +7,7 @@
 
 $primary-color: #535353;
 $text-color: #fff;
+$text-color-alt: #535353;
 $rti: #50b805;
 $default-color: #34a1e3;
 
@@ -77,6 +78,10 @@ header {
     box-shadow: none;
     border-radius: 0;
     border: none;
+  }
+
+  .dropdown-menu label {
+    color: $text-color-alt;
   }
 
   .dropdown {

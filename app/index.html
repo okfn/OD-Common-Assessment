@@ -37,18 +37,33 @@
   <div class="container-fluid">
     <div id="table"></div>
   </div>
+
   <script id="template-filter" type="text/ractive">
     <div class="filter">
       <div class="btn-group">
         <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
         <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
           <ul>
+          {{#scoring.scoringIndicators:item}}
+            <li>
+            <label>
+              <input
+                class='item'
+                type='checkbox'
+                on-change=''
+                twoway='false'
+                checked='{{ value }}'>
+              {{getIndicator(item, 'title')}}
+            </label>
+            </li>
+          {{/items}}
           </ul>
-          <button id="filter-apply" class="btn btn-default apply" type="button">Update</button>
+          <!-- <button id="filter-apply" class="btn btn-default apply" type="button">Update</button>-->
         </div>
       </div>
     </div>
   </script>
+
   <script id="template-table" type="text/ractive">
     <table class='countries'>
       <thead>
@@ -56,22 +71,27 @@
           <th on-tap='sorting.sort:title' class='sortable country-label theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
           <th>
             <!--<span class='hdi-label theader'>Human development index</span><span class='rti-label theader'>Right to information rating</span>-->
-            <div id='filter'></div>
+            <div id='filter'><Component /></div>
           </th>
           <th on-tap='sorting.sort:sorting.score()' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th>
         </tr>
       </thead>
+
       {{#each sorting.sort( places, sorting.column, sorting.direction )}}
       <tr class="data-{{id}}" data-country="{{title}}">
         <td class="country"><a href="#/country/{{id}}">{{title}}</a></td>
         <td class="results">
           <div class="result-wrapper">
-            {{#values}} {{#indicatorVisible}}
-            <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.numberOfVisibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{indicatormeta.title}}</h3><p></p><p>{{indicatormeta.description}}</p>">{{normalised}}</a> {{/}} {{/values}}
+            {{#values}}
+              {{# isVisible(indicatorid) }}
+                <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.visibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>"><!--{{normalised}}--></a>
+              {{/}}
+            {{/values}}
           </div>
         </td>
+
         <td>
-          {{values[0].rowNumber}}
+          {{scoring.score(values)}}
         </td>
       </tr>
       {{/each}}
