@@ -43,11 +43,13 @@ var app = (function() {
     var indicatorsFiltered = {};
     var forScoring = {};
     var count = 0;
-
+    var forScoringArr = [];
+    var visibleIndArr = [];
     for (var i = 0; i < indicatorsData.length; i++) {
       if(utilities.isTrue(indicatorsData[i]['scoring'])) {
         // set initial state for observable scores
         forScoring[indicatorsData[i]['id']] = {value: false};
+
         if(utilities.isTrue(indicatorsData[i]['default'])) {
           count+= 1;
           forScoring[indicatorsData[i]['id']]['value'] = true;
@@ -69,6 +71,7 @@ var app = (function() {
         indicators: indicatorsFiltered,
         scoring: {
           scoringIndicators: forScoring,
+          scoringIndicatorsArr: forScoringArr,
           visibleIndicators: count,
           score: function(values) {
             //console.log(values)
@@ -114,6 +117,7 @@ var app = (function() {
 
     // visible indicators
     var observer = ractive.observe( 'scoring.scoringIndicators.*', function ( newValue, oldValue, keypath ) {
+
      // console.log( keypath + ' changed to ' );
       //console.log(newValue);
       //console.log(oldValue)

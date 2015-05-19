@@ -51,8 +51,8 @@
                 class='item'
                 type='checkbox'
                 on-change=''
-                twoway='false'
-                checked='{{ value }}'>
+                twoway='true'
+                checked={{value}}>
               {{getIndicator(item, 'title')}}
             </label>
             </li>
@@ -84,7 +84,7 @@
           <div class="result-wrapper">
             {{#values}}
               {{# isVisible(indicatorid) }}
-                <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.visibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>"><!--{{normalised}}--></a>
+                <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.visibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>"></a>
               {{/}}
             {{/values}}
           </div>
