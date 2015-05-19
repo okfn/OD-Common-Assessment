@@ -17,7 +17,7 @@ var app = (function () {
 
 
         //console.log(placesData);
-        //console.log(indicatorsData);
+        console.log(indicatorsData);
         //console.log(valuesData);
 
         // Get visible indicators
@@ -39,12 +39,7 @@ var app = (function () {
             valuesData.filter(function(value) {
                 if(value['placeid'] === place.id) {
                     value['indicatorVisible'] = indicatorsForScoring.hasOwnProperty(value['indicatorid']);
-                    // todo: move to partials
-                    value['indicatormeta'] = indicatorsData.filter(function(indicator){
-                        if(value['indicatorid'] === indicator['id']) {
-                            return indicator['id'];
-                        }
-                    })[0];
+                    value['normalised'] =  parseInt(value['normalised']) || 0;
                     place['values'].push(value);
                 }
 
@@ -57,15 +52,20 @@ var app = (function () {
         //console.log(valuesData);
 
         // visible
-        console.log(indicatorsForScoring);
+        //console.log(indicatorsForScoring);
 
+        var indicatorsFiltered = {};
+        for (var i = 0; i < indicatorsData.length; i++) {
+            indicatorsFiltered[indicatorsData[i]['id']] = indicatorsData[i];
+        };
+
+        //console.log(indicatorsFiltered);
         var ractive = new Ractive({
             el: '#table',
             template: '#template-table',
             data: {
                 places: placesData,
-                indicators: indicatorsData,
-
+                indicators: indicatorsFiltered,
                 scoring : {
                     scoringIndicators: indicatorsForScoring,
                     numberOfVisibleIndicators: countInitialIndicators,
@@ -85,13 +85,20 @@ var app = (function () {
                 },
                 sorting : {
                     sort: function ( array, column, sd ) {
+                       // console.log(array, column, sd)
                         array = array.slice();
-                        return  array.sort( function ( a, b ) {
+                        var c = array.sort( function ( a, b ) {
+                            console.log(a[ column ] < b[ column ], a, b[ column ], column)
                             return a[ column ] < b[ column ] ? -sd : sd;
                         });
+                         console.log(c)
+                        return c;
                     },
                     column: 'title',
                     direction: 1
+                },
+                getIndicator: function (indicatorId, value) {
+                    return this.get('indicators')[indicatorId][value]
                 }
             },
             computed: {

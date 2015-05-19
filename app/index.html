@@ -63,7 +63,7 @@
       <tr>
         <th on-tap='sorting.sort:title' class='sortable country-label theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
         <th><!--<span class='hdi-label theader'>Human development index</span><span class='rti-label theader'>Right to information rating</span>--><div id='filter'></div></th>
-        <th on-tap='sorting.sort:score' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th></tr>
+        <th on-tap='sorting.sort:sorting.score()' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th></tr>
     </thead>
       {{#each sorting.sort( places, sorting.column, sorting.direction )}}
       <tr class="data-{{id}}" data-country="{{title}}" >
@@ -71,13 +71,13 @@
         <td class="results">
           <div class="result-wrapper">
             {{#values}}
-              {{#indicatorVisible}}<a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.numberOfVisibleIndicators }}%;{{/}} background-color: {{indicatormeta.colour}}" data-title="<h3>{{indicatormeta.title}}</h3><p></p><p>{{indicatormeta.description}}</p>"></a>
+              {{#indicatorVisible}}<a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.numberOfVisibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{indicatormeta.title}}</h3><p></p><p>{{indicatormeta.description}}</p>">{{normalised}}</a>
               {{/}}
             {{/values}}
           </div>
         </td>
         <td>
-          {{scoring.score(values)}}
+          {{values[0].rowNumber}}
         </td>
       </tr>
       {{/each}}
