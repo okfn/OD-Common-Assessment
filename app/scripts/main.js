@@ -49,14 +49,16 @@ var app = (function() {
       if(utilities.isTrue(indicatorsData[i]['scoring'])) {
         // set initial state for observable scores
         forScoring[indicatorsData[i]['id']] = {value: false};
-
+        forScoringArr.push(indicatorsData[i]['id']);
         if(utilities.isTrue(indicatorsData[i]['default'])) {
           count+= 1;
+          visibleIndArr.push(indicatorsData[i]['id']);
           forScoring[indicatorsData[i]['id']]['value'] = true;
         }
       }
       indicatorsFiltered[indicatorsData[i]['id']] = indicatorsData[i];
     };
+    console.log(visibleIndArr, forScoringArr);
 
     var Component = Ractive.extend({
       isolated: false,
@@ -67,12 +69,14 @@ var app = (function() {
       el: '#table',
       template: '#template-table',
       data: {
+        scores: [],
         places: placesData,
         indicators: indicatorsFiltered,
         scoring: {
           scoringIndicators: forScoring,
           scoringIndicatorsArr: forScoringArr,
           visibleIndicators: count,
+          visibleIndArr,
           score: function(values) {
             //console.log(values)
             var v = values.filter(function(value) {
@@ -96,7 +100,7 @@ var app = (function() {
           return this.get('indicators')[indicatorId][value];
         },
         isVisible: function(indicatorId) {
-          return this.get('scoring.scoringIndicators')[indicatorId]['value'];
+          return this.get('scoring.visibleIndArr').indexOf(indicatorId) > -1;
         }
       },
       computed: {

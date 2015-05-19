@@ -44,21 +44,23 @@
         <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
         <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
           <ul>
-          {{#scoring.scoringIndicators:item}}
+          {{#each scoring.scoringIndicatorsArr:item}}
             <li>
             <label>
               <input
+                name='{{scoring.visibleIndArr}}'
+                value='{{this}}'
                 class='item'
                 type='checkbox'
                 on-change=''
-                twoway='true'
-                checked={{value}}>
-              {{getIndicator(item, 'title')}}
+                twoway='true'>
+              {{getIndicator(this, 'title')}}
             </label>
             </li>
-          {{/items}}
+          {{/each}}
+
           </ul>
-          <!-- <button id="filter-apply" class="btn btn-default apply" type="button">Update</button>-->
+         <button id="filter-apply" class="btn btn-default apply" type="button">{{scoring.visibleIndArr}}</button>
         </div>
       </div>
     </div>
@@ -70,7 +72,9 @@
         <tr>
           <th on-tap='sorting.sort:title' class='sortable country-label theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
           <th>
-            <!--<span class='hdi-label theader'>Human development index</span><span class='rti-label theader'>Right to information rating</span>-->
+            {{#scoring.scoringIndicators:item}}
+              <span class='label label-default theader'> {{getIndicator(item, 'title')}}</span>
+            {{/}}
             <div id='filter'><Component /></div>
           </th>
           <th on-tap='sorting.sort:sorting.score()' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th>
