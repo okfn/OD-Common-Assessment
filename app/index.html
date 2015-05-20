@@ -44,11 +44,11 @@
         <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
         <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
           <ul>
-          {{#each scoring.scoringIndicatorsArr:item}}
+          {{#each indicators.scoring:item}}
             <li>
             <label>
               <input
-                name='{{scoring.visibleIndArr}}'
+                name='{{indicators.visible}}'
                 value='{{this}}'
                 class='item'
                 type='checkbox'
@@ -60,7 +60,7 @@
           {{/each}}
 
           </ul>
-         <button id="filter-apply" class="btn btn-default apply" type="button">{{scoring.visibleIndArr}}</button>
+         <button id="filter-apply" class="btn btn-default apply" type="button">{{scoring.visibleIndicators}}</button>
         </div>
       </div>
     </div>
@@ -72,10 +72,14 @@
         <tr>
           <th on-tap='sorting.sort:title' class='sortable country-label theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
           <th>
-            {{#scoring.scoringIndicators:item}}
-              <span class='label label-default theader'> {{getIndicator(item, 'title')}}</span>
+            {{#indicators.visible:item}}
+            <div role="indicator">
+              <button on-tap='indicator.remove:this' type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </button>
+              <span class='label label-default theader truncate'> {{getIndicator(this, 'title')}}</span>
+            </div>
             {{/}}
-            <div id='filter'><Component /></div>
+            <div id='filter'><filter /></div>
           </th>
           <th on-tap='sorting.sort:sorting.score()' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th>
         </tr>
@@ -88,14 +92,14 @@
           <div class="result-wrapper">
             {{#values}}
               {{# isVisible(indicatorid) }}
-                <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / scoring.visibleIndicators }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>"></a>
+                <a class="indicator" href="#" title="" style="{{#normalised}}width: {{normalised / indicators.processed.visible.length-1 }}%;{{/}} background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>"></a>
               {{/}}
             {{/values}}
           </div>
         </td>
 
         <td>
-          {{scoring.score(values)}}
+          {{scoring.calculateScore(values)}}
         </td>
       </tr>
       {{/each}}
@@ -132,6 +136,7 @@
   <!-- build:js scripts/plugins.js -->
   <!-- endbuild -->
   <!-- build:js scripts/main.js -->
+  <script src="scripts/indicators.js"></script>
   <script src="scripts/utilities.js"></script>
   <script src="scripts/services.js"></script>
   <script src="scripts/main.js"></script>

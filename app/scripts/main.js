@@ -26,7 +26,6 @@ var app = (function() {
       place.values = [];
       valuesData.filter(function(value) {
         if (value['placeid'] === place.id) {
-         // value['indicatorVisible'] = indicatorsForScoring.hasOwnProperty(value['indicatorid']);
           value['normalised'] = parseInt(value['normalised']) || 0;
           place['values'].push(value);
         }
@@ -40,30 +39,16 @@ var app = (function() {
     //console.log(valuesData);
 
     // filter indicators to make them easier to handle, visibility, default etc
-    var indicatorsFiltered = {};
-    var forScoring = {};
-    var count = 0;
-    var forScoringArr = [];
-    var visibleIndArr = [];
-    for (var i = 0; i < indicatorsData.length; i++) {
-      if(utilities.isTrue(indicatorsData[i]['scoring'])) {
-        // set initial state for observable scores
-        forScoring[indicatorsData[i]['id']] = {value: false};
-        forScoringArr.push(indicatorsData[i]['id']);
-        if(utilities.isTrue(indicatorsData[i]['default'])) {
-          count+= 1;
-          visibleIndArr.push(indicatorsData[i]['id']);
-          forScoring[indicatorsData[i]['id']]['value'] = true;
-        }
-      }
-      indicatorsFiltered[indicatorsData[i]['id']] = indicatorsData[i];
-    };
-    console.log(visibleIndArr, forScoringArr);
 
-    var Component = Ractive.extend({
+
+    var Filter = Ractive.extend({
       isolated: false,
       template: '#template-filter'
     });
+    // var Score = Ractive.extend({
+    //   template: '{{}}',
+    //   computed: { area: '${width} * ${height}' }
+    // });
 
     var ractive = new Ractive({
       el: '#table',
@@ -71,13 +56,8 @@ var app = (function() {
       data: {
         scores: [],
         places: placesData,
-        indicators: indicatorsFiltered,
         scoring: {
-          scoringIndicators: forScoring,
-          scoringIndicatorsArr: forScoringArr,
-          visibleIndicators: count,
-          visibleIndArr,
-          score: function(values) {
+          calculateScore: function(values) {
             //console.log(values)
             var v = values.filter(function(value) {
                 return value.indicatorVisible;
@@ -91,26 +71,25 @@ var app = (function() {
             return score;
           }
         },
+        indicators: {
+          processed: indicators.processed(indicatorsData),
+          remove: indicators.remove
+        },
         sorting: {
           sort: utilities.sort,
           column: 'title',
           direction: 1
         },
         getIndicator: function(indicatorId, value) {
-          return this.get('indicators')[indicatorId][value];
+          return this.get('indicators.processed.all')[indicatorId][value];
         },
         isVisible: function(indicatorId) {
-          return this.get('scoring.visibleIndArr').indexOf(indicatorId) > -1;
+          return this.get('indicators.processed.visible').indexOf(indicatorId) > -1;
         }
       },
-      computed: {
-
-      },
-      components: { Component: Component }
+      computed: { },
+      components: { filter: Filter }
     });
-
-    console.log(forScoring);
-    console.log(indicatorsFiltered);
 
     // sorting observers
     ractive.on('sorting.sort', function(event, column) {
@@ -118,14 +97,16 @@ var app = (function() {
       this.set('sorting.direction', this.get('sorting.direction') * -1);
     });
 
+    ractive.on('indicator.remove', function(event, indicatorId) {
+    });
 
     // visible indicators
-    var observer = ractive.observe( 'scoring.scoringIndicators.*', function ( newValue, oldValue, keypath ) {
+    //var observer = ractive.observe( 'scoring.scoringIndicators.*', function ( newValue, oldValue, keypath ) {
 
      // console.log( keypath + ' changed to ' );
       //console.log(newValue);
       //console.log(oldValue)
-    });
+    //});
 
 
     //ractive.set( 'scoring.scoringIndicators.odi-score', true )
