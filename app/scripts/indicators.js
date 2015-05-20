@@ -2,16 +2,7 @@
 /* jshint devel:true */
 
 var indicators = (function() {
-  function remove(indicatorId) {
-    var visible = this.get('scoring.visibleIndicators');
-    var index = visible.indexOf(indicatorId);
-    if (index > -1) {
-        visible.splice(index, 1);
-    }
-    console.log(visible)
-    return visible;
-  }
-
+  // filter indicators to make them easier to handle, visibility, default etc
   // todo: move to data processing
   function processedIndicators(data) {
     var indicatorData = {};
@@ -33,8 +24,19 @@ var indicators = (function() {
     }
   }
 
+  function calculate(values) {
+    //console.log(values)
+    //var v = this.get('indicators.processed.visible');
+    var score = 0;
+    // for (var i = 0; i < v.length; i++) {
+    //   var value = +v[i]['normalised'];
+    //   score += value;
+    // };
+    return score;
+  }
+
   return {
-    remove: remove,
+    calculate: calculate,
     processed: processedIndicators
   }
 }());

@@ -9,13 +9,11 @@ var app = (function() {
     });
   }
 
-// TODO: break out into modules
   function showInfo(data, tabletop) {
     // deconstruct data with tabletop
     var placesData = tabletop.sheets('places').elements;
     var indicatorsData = tabletop.sheets('indicators').elements;
     var valuesData = tabletop.sheets('values').elements;
-
 
     //console.log(placesData);
     console.log(indicatorsData);
@@ -34,12 +32,6 @@ var app = (function() {
       return place;
     });
 
-    //  console.log(valuesData)
-    //console.log(placesData);
-    //console.log(valuesData);
-
-    // filter indicators to make them easier to handle, visibility, default etc
-
 
     var Filter = Ractive.extend({
       isolated: false,
@@ -57,29 +49,17 @@ var app = (function() {
         scores: [],
         places: placesData,
         scoring: {
-          calculateScore: function(values) {
-            //console.log(values)
-            var v = values.filter(function(value) {
-                return value.indicatorVisible;
-              })
-              //console.log(v);
-            var score = 0;
-            for (var i = 0; i < v.length; i++) {
-              var value = +v[i]['normalised'];
-              score += value;
-            };
-            return score;
-          }
+          calculateScore: indicators.calculate
         },
         indicators: {
-          processed: indicators.processed(indicatorsData),
-          remove: indicators.remove
+          processed: indicators.processed(indicatorsData)
         },
         sorting: {
           sort: utilities.sort,
           column: 'title',
           direction: 1
         },
+
         getIndicator: function(indicatorId, value) {
           return this.get('indicators.processed.all')[indicatorId][value];
         },
@@ -97,26 +77,12 @@ var app = (function() {
       this.set('sorting.direction', this.get('sorting.direction') * -1);
     });
 
-    ractive.on('indicator.remove', function(event, indicatorId) {
+    ractive.on('indicators.processed.visible', function(event, indicatorId) {
+      // todo: marry the indicators with the filter list
     });
-
-    // visible indicators
-    //var observer = ractive.observe( 'scoring.scoringIndicators.*', function ( newValue, oldValue, keypath ) {
-
-     // console.log( keypath + ' changed to ' );
-      //console.log(newValue);
-      //console.log(oldValue)
-    //});
-
-
-    //ractive.set( 'scoring.scoringIndicators.odi-score', true )
-    // ractive.observe('scoring.scoringIndicators.*', function(newValue, oldValue, keypath) {
-    //   console.log(newValue, oldValue, keypath);
-    // });
-
     //this.set( 'items[*].completed', event.node.checked );
 
-    //bindDropdownEvents();
+    bindDropdownEvents();
   }
 
   function runApp() {

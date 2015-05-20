@@ -6,6 +6,7 @@
 
 
 $primary-color: #535353;
+$secondary-color: #3c3c3c;
 $text-color: #fff;
 $text-color-alt: #535353;
 $rti: #50b805;
@@ -50,9 +51,9 @@ header {
 
 /* A little bootstrap modification */
 #filter {
-  text-align: right;
-  margin-bottom: 1em;
-  margin-top: 1em;
+  float: right;
+  display: inline-block;
+  margin-right: 0.5em;
 }
 
 .filter {
@@ -60,24 +61,27 @@ header {
     margin-bottom: 5px;
   }
   ul {
-      list-style: none;
+    list-style: none;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
   }
   label {
     font-weight: 300;
     font-size: 0.9em;
     padding-right: 0;
   }
+  button {
+    background-color: $secondary-color;
+    color: $text-color;
+    box-shadow: none;
+    border: none;
+  }
   .apply {
     float: right;
     margin-right: 0.5em;
   }
-  .dropdown, .open .dropdown, .apply {
+  .open .dropdown, .apply {
     text-transform: uppercase;
-    background-color: $primary-color;
-    color: $text-color;
-    box-shadow: none;
-    border-radius: 0;
-    border: none;
   }
 
   .dropdown-menu label {
@@ -86,7 +90,7 @@ header {
 
   .dropdown {
     padding: 0 0.8em;
-    font-size: 1.2em;
+    font-size: 1.13em;
     font-weight: 400;
     line-height: 2.0;
   }
@@ -95,13 +99,9 @@ header {
     text-align: left;
     display: inline-block;
   }
-  // .caret {
-  //   border-top: 5px dashed;
-  //   border-right: 5px solid transparent;
-  //   border-left: 5px solid transparent;
-  // }
+
   .dropdown-menu {
-      border: 1px solid black;
+      border: 1px solid $secondary-color;
       border-radius: 0;
       margin-top: 0;
       right: 0;
@@ -115,6 +115,20 @@ header {
   border-top: 1px dashed #5f5f5f;
   padding-top: 1em;
   display: block;
+
+  .caret {
+    margin-left: 8px;
+  }
+
+  .indicator-pil {
+    display: inline-block;
+    width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 0.2em;
+    float: left;
+  }
 
   thead {
     border-bottom: 1em solid #fff;
@@ -140,15 +154,9 @@ header {
   td {
     font-size: 1.2em;
   }
-  .hdi-label {
-    margin-right: 0.35em;
-  }
-  .rti-label, .hdi-label {
-    width: 50%;
-    border: 1px solid #000;
-  }
+
   .results {
-    width: 80%;
+    width: 70%;
   }
   .results a {
     width: 0%;
@@ -159,11 +167,18 @@ header {
     margin-right: 1px;
     text-align: center;
   }
-  .thheader {
+  .theader {
     padding: 5px 1em 5px 1em;
   }
   .theader, .indicator{
-     line-height: 1.42857143;
+    line-height: 1.42857143;
+  }
+  .score {
+    min-width: 7em;
+  }
+
+  .indicator-pil {
+    line-height: 2;
   }
   .country {
     padding-left: 1em;
@@ -180,9 +195,10 @@ header {
     border-color: $default-color;
   }
 
-  .country, .country-label {
-    background-color: #3c3c3c;
+  .country, .theader {
+    background-color: $secondary-color;
   }
+
   a {
     color: $text-color;
     text-decoration: none;

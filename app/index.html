@@ -41,26 +41,26 @@
   <script id="template-filter" type="text/ractive">
     <div class="filter">
       <div class="btn-group">
-        <button class="btn btn-default dropdown-toggle dropdown col-md-12" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
+        <button class="label label-default dropdown-toggle dropdown" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
         <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
           <ul>
-          {{#each indicators.scoring:item}}
+          {{#each indicators.processed.scoring:item}}
             <li>
             <label>
               <input
-                name='{{indicators.visible}}'
-                value='{{this}}'
-                class='item'
-                type='checkbox'
-                on-change=''
-                twoway='true'>
+                name="{{indicators.processed.visible}}"
+                value="{{this}}"
+                class="item"
+                type="checkbox"
+                on-change=""
+                twoway="true">
               {{getIndicator(this, 'title')}}
             </label>
             </li>
           {{/each}}
 
           </ul>
-         <button id="filter-apply" class="btn btn-default apply" type="button">{{scoring.visibleIndicators}}</button>
+         <button id="filter-apply" class="btn btn-default apply" type="button"></button>
         </div>
       </div>
     </div>
@@ -70,18 +70,22 @@
     <table class='countries'>
       <thead>
         <tr>
-          <th on-tap='sorting.sort:title' class='sortable country-label theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
+          <th on-tap='sorting.sort:title' class='sortable theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Country<span class='caret'></span></th>
           <th>
-            {{#indicators.visible:item}}
-            <div role="indicator">
-              <button on-tap='indicator.remove:this' type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
-              </button>
-              <span class='label label-default theader truncate'> {{getIndicator(this, 'title')}}</span>
+            {{#indicators.processed.visible:item}}
+            <div class='indicator-pil label label-default theader truncate' style="background-color: {{getIndicator(this, 'colour')}}">
+                <button on-tap='remove("indicators.processed.visible", this)' type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+               {{getIndicator(this, 'title')}}
             </div>
             {{/}}
-            <div id='filter'><filter /></div>
+            <div id="filter"><filter /></div>
           </th>
-          <th on-tap='sorting.sort:sorting.score()' class='sortable country-label theader {{ sorting.column === "score" ? "sorted" : "" }} {{ sorting.direction === -1 ? "dropup" : ""}}'>Score<span class='caret'></span></th>
+          <th on-tap='sorting.sort:sorting.score()'
+            class='score sortable theader
+            {{ sorting.column === "score" ? "sorted" : "" }}
+            {{ sorting.direction === -1 ? "dropup" : ""}}'>
+            <div>Score<span class='caret'></span></div></th>
         </tr>
       </thead>
 
@@ -136,6 +140,7 @@
   <!-- build:js scripts/plugins.js -->
   <!-- endbuild -->
   <!-- build:js scripts/main.js -->
+  <script src="scripts/ractive.extend.js"></script>
   <script src="scripts/indicators.js"></script>
   <script src="scripts/utilities.js"></script>
   <script src="scripts/services.js"></script>
