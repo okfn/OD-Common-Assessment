@@ -9,7 +9,8 @@
     "ractive": "~0.7.3"
   },
   "devDependencies": {
-    "ractive-events-tap": "~0.1.2"
+    "ractive-events-tap": "~0.1.2",
+    "finchjs": "~0.5.14"
   },
   "resolutions": {
     "ractive": "~0.7.3"

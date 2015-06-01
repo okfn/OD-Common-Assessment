@@ -1,18 +1,29 @@
 'use strict';
 /* jshint devel:true */
 
+// Debug steps
+// Get template to stop throwing error
+    // get the values into the variable bit
+// Debug actually issue with JS
+
+
 var indicators = (function() {
   // filter indicators to make them easier to handle, visibility, default etc
   // todo: move to data processing
   function processedIndicators(data) {
     var indicatorData = {};
     var forScoring = [];
+    var forGrouping = [];
     var visible = [];
     for (var i = 0; i < data.length; i++) {
+      if(utilities.isTrue(data[i]['grouping'])) {
+        forGrouping.push(data[i]['id']);
+      }
       if(utilities.isTrue(data[i]['scoring'])) {
         forScoring.push(data[i]['id']);
         if(utilities.isTrue(data[i]['default'])) {
           visible.push(data[i]['id']);
+          //data[i]['id'].visible = true;
         }
       }
       indicatorData[data[i]['id']] = data[i];
@@ -20,8 +31,28 @@ var indicators = (function() {
     return {
       all: indicatorData,
       scoring: forScoring,
+      grouping: forGrouping,
+      // order is dictated by items in visible array
       visible: visible
     }
+  }
+
+  function processedPlaces(places, values) {
+    // Map variable data into results
+    places.map(function(place) {
+      //place.values = [];
+      place.score = 0;
+      place.valuesMap = {};
+      values.filter(function(value) {
+        if (value.placeid === place.id) {
+          place['valuesMap'][value['indicatorid']] = value;
+          value['normalised'] = parseInt(value['normalised']) || 0;
+          //place['values'].push(value);
+        }
+        return true;
+      });
+    });
+    return places
   }
 
   function calculate(values) {
@@ -37,6 +68,7 @@ var indicators = (function() {
 
   return {
     calculate: calculate,
-    processed: processedIndicators
+    indicators: processedIndicators,
+    places: processedPlaces
   }
 }());

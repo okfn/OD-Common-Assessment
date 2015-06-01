@@ -1,3 +1,4 @@
+'use strict';
 Ractive.prototype.remove = function(keypath, item){
     var array = this.get(keypath),
           index = array.indexOf(item)

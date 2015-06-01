@@ -6,6 +6,7 @@ var services = (function() {
     var URL = '1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig';
     Tabletop.init({
       key: URL,
+      // proxy: "http://localhost:9000/",
       callback: callback,
       simpleSheet: false,
       prettyColumnNames: false
