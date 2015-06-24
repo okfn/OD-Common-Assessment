@@ -89,7 +89,7 @@
             {{/}}
             <div id="filter"><filter /></div>
           </th>
-          <th on-tap="sorting.sort:sorting.score()"
+          <th on-tap="sorting.sort:score"
             class="score sortable theader
             {{ sorting.column === 'score' ? 'sorted' : '' }}
             {{ sorting.direction === -1 ? 'dropup' : ''}}">
@@ -97,18 +97,12 @@
         </tr>
       </thead>
 
-      {{#each sorting.sort( places, sorting.column, sorting.direction )}}
+      {{#each sorting.sort( places, sorting.column, sorting.direction ): i}}
       <tr class="data-{{id}}" data-country="{{title}}">
         <td> {{indicatorid}} </td>
         <td class="country"><a href="#/country/{{id}}">{{title}}</a></td>
         <td class="results">
           <div class="result-wrapper">
-            {{#each valuesMap}}<h1>{{.visible}}</h1>
-                {{#visible}}
-                <a class="indicator" href="#" title="" style="width: {{ normalised / indicators.processed.visible.length-1 }}%; background-color: {{getIndicator(indicatorid, 'colour')}}" data-title="<h3>{{getIndicator(indicatorid, 'title')}}</h3><p>{{normalised}}</p><p>{{getIndicator(indicatorid, 'description')}}</p>">{{normalised}}</a>
-                {{/visible}}
-            {{/each}}
-
 
             {{#each indicators.processed.visible}}
                 <a class="indicator" href="#" title="" style="{{#valuesMap[this].normalised}}width: {{valuesMap[this].normalised / indicators.processed.visible.length-1 }}%;{{/}} background-color: {{getIndicator(this, 'colour')}}" data-title="<h3>{{getIndicator(this, 'title')}}</h3><p>{{valuesMap[this].normalised}}</p><p>{{getIndicator(this, 'description')}}</p>">{{valuesMap[this].normalised}}</a>
@@ -138,6 +132,10 @@
   ga('create', 'UA-XXXXX-X');
   ga('send', 'pageview');
   </script>
+
+  <!-- build:template scripts/templates_compiled.js -->
+  <!-- <script src="/scripts/templates_compiled.js"></script> -->
+  <!-- endbuild -->
   <!-- comment:using cdn as open data handbook does -->
   <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
   <!-- build:js scripts/vendor.js -->

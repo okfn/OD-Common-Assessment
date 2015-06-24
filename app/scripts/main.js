@@ -4,7 +4,7 @@
 var app = (function() {
   function bindDropdownEvents() {
     $('#filter-dropdown ul').click(function(e) {
-      console.log('stop');
+      //console.log('stop');
       e.stopPropagation();
     });
   }
@@ -26,19 +26,22 @@ var app = (function() {
       template: '#template-grouping'
     });
 
+    var processedIndicators = indicators.indicators(indicatorsData);
+
     // Bind to ractive
     var ractive = new Ractive({
       el: '#table',
       template: '#template-table',
       data: {
-        places: indicators.places(placesData, valuesData),
+        // All values for an indicated, listed by place
+        places: indicators.places(placesData, valuesData, processedIndicators.visible),
         indicators: {
-          processed: indicators.indicators(indicatorsData),
-          score: function(){console.log('score')}
+          // All indicator meta data
+          processed: processedIndicators
         },
         sorting: {
           sort: utilities.sort,
-          column: 'title',
+          column: 'title', // default
           direction: 1
         },
         getIndicator: function(indicatorId, value) {
@@ -46,8 +49,24 @@ var app = (function() {
         },
         isVisible: function(indicatorId) {
           return this.get('indicators.processed.visible').indexOf(indicatorId) > -1;
+        },
+        setScore: function ( i ) {
+
+          var values = this.get( 'places.' + i + '.valuesMap');
+          var score = 0;
+
+          for(var key in values) {
+            if(this.get('indicators.processed.visible').indexOf(values[key]['indicatorid']) > -1) {
+              score += values[key]['normalised'];
+            }
+          }
+
+          this.set( 'places.' + i + '.score', score);
+
+          return score;
         }
       },
+
       computed: { },
       components: { filter: Filter, grouping: Grouping }
     });

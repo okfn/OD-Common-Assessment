@@ -4,7 +4,7 @@
 var utilities = (function() {
 
   function sort(array, column, sd) {
-    // console.log(array, column, sd)
+    //console.log(array, column, sd)
     array = array.slice();
     var c = array.sort(function(a, b) {
       //console.log(a[column] < b[column], a, b[column], column)
