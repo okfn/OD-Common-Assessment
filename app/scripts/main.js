@@ -9,93 +9,60 @@ var app = (function() {
     });
   }
 
-  function showInfo(data, tabletop) {
-    // Deconstruct data with tabletop
-    var placesData = tabletop.sheets('places').elements;
-    var indicatorsData = tabletop.sheets('indicators').elements;
-    var valuesData = tabletop.sheets('values').elements;
 
-    // Bind to templates
-    var Filter = Ractive.extend({
-      isolated: false,
-      template: '#template-filter'
-    });
+//the check box asks the controller to update the visible indexes.
+//it then rebuilds the list indexes for each country,
+//then calculates the score and updates the list of visible indexes.
+//it then tells ractive to set the new view models
+//you controller _should_ be setting up the json that drives the view... the view model.
+//there should be the list of countries with index data, and a list of indexes and their visibility
+//
 
-    var Grouping = Ractive.extend({
-      isolated: false,
-      template: '#template-grouping'
-    });
+// some of controller, fetch, and mapping to view
+  function main(places, indicators, values) {
 
-    var processedIndicators = indicators.indicators(indicatorsData);
+    var processedIndicators = services.prepareIndicators(indicators);
+    var processCountries = services.preparePlaces(places, values, processedIndicators.visible);
 
-    // Bind to ractive
-    var ractive = new Ractive({
-      el: '#table',
-      template: '#template-table',
-      data: {
-        // All values for an indicated, listed by place
-        places: indicators.places(placesData, valuesData, processedIndicators.visible),
-        indicators: {
-          // All indicator meta data
-          processed: processedIndicators
-        },
-        sorting: {
-          sort: utilities.sort,
-          column: 'title', // default
-          direction: 1
-        },
-        getIndicator: function(indicatorId, value) {
-          return this.get('indicators.processed.all')[indicatorId][value];
-        },
-        isVisible: function(indicatorId) {
-          return this.get('indicators.processed.visible').indexOf(indicatorId) > -1;
-        },
-        setScore: function ( i ) {
-
-          var values = this.get( 'places.' + i + '.valuesMap');
-          var score = 0;
-
-          for(var key in values) {
-            if(this.get('indicators.processed.visible').indexOf(values[key]['indicatorid']) > -1) {
-              score += values[key]['normalised'];
-            }
-          }
-
-          this.set( 'places.' + i + '.score', score);
-
-          return score;
-        }
+    var data = {
+      indicators: processedIndicators,
+      // All values for an indicated, listed by place
+      places: processCountries,
+      sorting: {
+        sort: utilities.sort,
+        column: 'title', // default
+        direction: 1
       },
+      getIndicator: function(indicatorId, value) {
+        return this.get('indicators.all')[indicatorId][value];
+      },
+      isVisible: function(indicatorId) {
+        return this.get('indicators.visible').indexOf(indicatorId) > -1;
+      },
+      updateScore: function ( i ) {
 
-      computed: { },
-      components: { filter: Filter, grouping: Grouping }
-    });
+        var values = this.get( 'places.' + i + '.valuesMap');
+        var score = 0;
 
-    console.log(ractive.get('places'));
-    console.log(ractive.get('indicators'));
+        for(var key in values) {
+          if(this.get('indicators.visible').indexOf(values[key]['indicatorid']) > -1) {
+            score += values[key]['normalised'];
+          }
+        }
 
-    // Bind sorting events
-    ractive.on('sorting.sort', function(event, column) {
-      this.set('sorting.column', column);
-      this.set('sorting.direction', this.get('sorting.direction') * -1);
-    });
+        //this.set( 'places.' + i + '.score', score);
 
-    ractive.on('indicators.processed.visible', function(event, indicatorId) {
+        return score;
+      }
+    };
 
-    });
-
-    ractive.on( 'indicators.score', function (event) {
-      //console.log(event);
-      //ractive.set(event.keypath +".price", event.context.sum / event.context.quantity)
-    });
-
-    //ractive.fire('indicators.score');
+    views.init(data);
 
     bindDropdownEvents();
   }
 
   function runApp() {
-    services.getData(showInfo);
+    services.getData(main);
   }
 
   return {
