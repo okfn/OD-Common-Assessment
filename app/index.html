@@ -46,8 +46,8 @@
           {{#each indicators.scoring:item}}
             <li>
             <label>
-              <input name="{{indicators.visible}}" value="{{this}}" class="{{item}}" type="checkbox" on-change="" twoway="true">
-              {{getIndicator(this, 'title')}}
+              <input name="{{indicators.visible}}" value="{{this}}" class="{{this}}" type="checkbox">
+              {{getIndicator(this, 'title')}}{{item}}{{this}}
             </label>
             </li>
           {{/each}}
@@ -82,7 +82,7 @@
           <th>
             {{#indicators.visible:item}}
             <div class="indicator-pil label label-default theader truncate" style="background-color: {{getIndicator(this, 'colour')}}; width: indicators.scoring.length / indicators.visible.length-1">
-                <button on-tap="remove('indicators.visible', this)" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
+                <button on-tap="indicator.remove" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
                 </button>
                {{getIndicator(this, 'title')}}
             </div>

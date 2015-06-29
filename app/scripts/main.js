@@ -10,14 +10,6 @@ var app = (function() {
   }
 
 
-//the check box asks the controller to update the visible indexes.
-//it then rebuilds the list indexes for each country,
-//then calculates the score and updates the list of visible indexes.
-//it then tells ractive to set the new view models
-//you controller _should_ be setting up the json that drives the view... the view model.
-//there should be the list of countries with index data, and a list of indexes and their visibility
-//
-
 // some of controller, fetch, and mapping to view
   function main(places, indicators, values) {
 
@@ -39,20 +31,8 @@ var app = (function() {
       isVisible: function(indicatorId) {
         return this.get('indicators.visible').indexOf(indicatorId) > -1;
       },
-      updateScore: function ( i ) {
-
-        var values = this.get( 'places.' + i + '.valuesMap');
-        var score = 0;
-
-        for(var key in values) {
-          if(this.get('indicators.visible').indexOf(values[key]['indicatorid']) > -1) {
-            score += values[key]['normalised'];
-          }
-        }
-
-        //this.set( 'places.' + i + '.score', score);
-
-        return score;
+      removeIndicator: function(event, thing) {
+        console.log(event, thing)
       }
     };
 

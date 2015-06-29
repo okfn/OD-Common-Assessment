@@ -75,9 +75,25 @@ var services = (function() {
     return places
   }
 
+  function updateScores(data, visible) {
+    var places = data;
+    for(var place in places) {
+      var values = places[place]['valuesMap'];
+      var score = 0;
+      for(var key in values) {
+        if(visible.indexOf(values[key]['indicatorid']) > -1) {
+          score += values[key]['normalised'];
+        }
+      }
+      places[place]['score'] = score;
+    }
+    return places;
+  }
+
   return {
     getData: getDataFromGoogleSpreadsheet,
     prepareIndicators: processedIndicators,
-    preparePlaces: processedPlaces
+    preparePlaces: processedPlaces,
+    updateScores: updateScores
   }
 }());
