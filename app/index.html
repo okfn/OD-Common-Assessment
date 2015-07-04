@@ -43,14 +43,14 @@
         <button class="label label-default dropdown-toggle dropdown" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
         <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
           <ul>
-          {{#each indicators.scoring:item}}
+          {{#indicators.scoring}}
             <li>
             <label>
-              <input name="{{indicators.visible}}" value="{{this}}" class="{{this}}" type="checkbox">
+              <input type="checkbox" name="{{indicators.visible}}" value="{{this}}" class="{{this}}" >
               {{getIndicator(this, 'title')}}
             </label>
             </li>
-          {{/each}}
+          {{/}}
           </ul>
         </div>
       </div>
@@ -62,9 +62,10 @@
       <div class="btn-group">
         <div id="grouping" class="form-horizontal" role="menu">
           <label>Group by:</label>
-          <select class="form-control">
+          <select class="form-control" value='{{selectedGroup}}'>
+              <option selected="selected">Select a group</option>
           {{#each indicators.grouping:item}}
-              <option>{{getIndicator(this, 'title')}}</option>
+              <option value="{{this}}">{{getIndicator(this, 'title')}}</option>
           {{/each}}
           </select>
         </div>
@@ -165,6 +166,7 @@
     app.start();
   });
   </script>
+
 </body>
 
 </html>
