@@ -5,6 +5,22 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var ractive = require('gulp-ractive');
+var declare = require('gulp-declare');
+var concat = require('gulp-concat');
+
+gulp.task('ractive_templates', function() {
+    return gulp.src('app/templates/**/*.html')
+        .pipe(ractive({
+          preserveWhitespace: true
+        }))
+        .pipe(declare({
+          namespace: 'Templates',
+          noRedeclare: true // Avoid duplicate declarations
+        }))
+        .pipe(concat('templates_compiled.js'))
+        .pipe(gulp.dest('.tmp/templates'));
+});
 
 gulp.task('styles', function () {
   return gulp.src('app/styles/main.scss')
@@ -75,7 +91,7 @@ gulp.task('extras', function () {
 
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['styles', 'fonts'], function () {
+gulp.task('serve', ['styles', 'fonts', 'ractive_templates'], function () {
   browserSync({
     notify: false,
     port: 9000,
@@ -95,6 +111,7 @@ gulp.task('serve', ['styles', 'fonts'], function () {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
+  gulp.watch('app/templates/*.html', ['ractive_templates'])
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);
@@ -118,7 +135,7 @@ gulp.task('wiredep', function () {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['jshint', 'html', 'ractive_templates', 'images', 'fonts', 'extras'], function () {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
