@@ -2,8 +2,8 @@
   <div class="btn-group">
     <div id="grouping" class="form-horizontal" role="menu">
       <label>Group by:</label>
-      <select class="form-control" value='{{selectedGroup}}'>
-          <option selected="selected">Select a group</option>
+      <select class="form-control" value='{{sorting.grouping}}'>
+          <option value="" selected="selected">none</option>
       {{#each indicators.grouping:item}}
           <option value="{{this}}">{{getIndicator(this, 'title')}}</option>
       {{/each}}

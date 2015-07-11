@@ -1,16 +1,8 @@
 'use strict';
 /* jshint devel:true */
+var app = (function(window) {
 
-var app = (function() {
-  function bindDropdownEvents() {
-    $('#filter-dropdown ul').click(function(e) {
-      //console.log('stop');
-      e.stopPropagation();
-    });
-  }
-
-
-// some of controller, fetch, and mapping to view
+  // some of controller, fetch, and mapping to view
   function main(places, indicators, values) {
 
     var processedIndicators = services.prepareIndicators(indicators);
@@ -19,26 +11,24 @@ var app = (function() {
     var data = {
       indicators: processedIndicators,
       // All values for an indicated, listed by place
-      places: processCountries,
+      model: processCountries,
+      groups: [{ 'id' : '', 'places' : processCountries }],
       sorting: {
-        sort: utilities.sort,
+        open: false,
+    //    sort: utilities.sortGroups,
         column: 'title', // default
-        direction: 1
+        direction: 1,
+        grouping: ''
       },
       getIndicator: function(indicatorId, value) {
         return this.get('indicators.all')[indicatorId][value];
       },
       isVisible: function(indicatorId) {
         return this.get('indicators.visible').indexOf(indicatorId) > -1;
-      },
-      removeIndicator: function(event, thing) {
-        console.log(event, thing)
       }
     };
 
     views.init(data);
-
-    bindDropdownEvents();
   }
 
   function runApp() {
@@ -48,4 +38,4 @@ var app = (function() {
   return {
     start: runApp
   };
-}());
+}( window));

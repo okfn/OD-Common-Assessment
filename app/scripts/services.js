@@ -6,17 +6,13 @@ var services = (function() {
     var URL = '1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig';
     Tabletop.init({
       key: URL,
-      // proxy: "http://localhost:9000/",
+      //proxy: "http://localhost:9000/data/",
       callback: function (data, tabletop){
         callback(tabletop.sheets('places').elements, tabletop.sheets('indicators').elements, tabletop.sheets('values').elements)
       },
       simpleSheet: false,
       prettyColumnNames: false
     });
-
-    // $('#apply').on('click', function() {
-    //     $('#filter-dropdown').trigger('hide.bs.dropdown');
-    // });
   }
 
   function processedIndicators(data) {
@@ -53,7 +49,8 @@ var services = (function() {
     return false;
   }
 
-  function processedPlaces(places, values, visibleIndicators) {
+  function processedPlaces(data, values, visibleIndicators) {
+    var places = data;
     var visible = visibleIndicators || [];
     // Map variable data into results
     places.map(function(place) {
@@ -63,37 +60,93 @@ var services = (function() {
       values.filter(function(value, index) {
         if (value.placeid === place.id) {
           place['valuesMap'][value['indicatorid']] = value;
-          value.normalised = parseInt(value['normalised']) || 0;
-          if(visibleIndicator(visible, value['indicatorid'])){
-            // setting the initial score so that it not a computed score, so sorting works
-            place.score += value.normalised;
-          }
         }
         return true;
       });
     });
-    return places
-  }
-
-  function updateScores(data, visible) {
-    var places = data;
-    for(var place in places) {
-      var values = places[place]['valuesMap'];
-      var score = 0;
-      for(var key in values) {
-        if(visible.indexOf(values[key]['indicatorid']) > -1) {
-          score += values[key]['normalised'];
-        }
-      }
-      places[place]['score'] = score;
-    }
     return places;
   }
+
+  function calculateVisibleScores(data, visible) {
+    // only calculates visible scores aka scores for scoring
+    // display only the countries that have scores
+    var groups = data;
+    groups.map(function(group){
+      // each value, check calculate
+      group['places'] = group['places'].map(function(place) {
+        var show = true;
+        var score = 0;
+        var values = place['valuesMap'];
+        for(var key in values) {
+          // check that indicators are scoring and visible
+          if(show && visible.indexOf(values[key]['indicatorid']) > -1) {
+            if(values[key]['normalised']) {
+              // No indicator value does not mean 0.
+              score += parseInt(values[key]['normalised']);
+            } else {
+              show = false;
+            }
+          }
+        }
+        place['first'] = false;
+        place['score'] = score;
+        place['show'] = show;
+        return place;
+      }).filter(function(place){
+        return place.show;
+      });
+      // mark first visible item
+      group['places'][0]['first'] = true;
+    });
+    return groups;
+  }
+
+//todo: visibility of indicators
+  function update(data, column, direction, grouping, groupingOrder) {
+    var places = data;
+    var groupingIndicator = grouping;
+    var clustering = {};
+    var grouping = [];
+
+    if(groupingIndicator) {
+      // cluster
+      for (var place in places) {
+        var groupValue = places[place].valuesMap[groupingIndicator];
+        if(groupValue && groupValue['normalised']) {
+          var groupSlug = utilities.slugify(groupValue['normalised']);
+          if(!(groupSlug in clustering)) clustering[groupSlug] = { 'id': groupSlug, 'value': groupValue['normalised'], 'places':[] };
+          clustering[groupSlug].places.push(places[place]);
+        }
+      }
+
+      // sort grouping, dirty little hack for sorting order
+      // comes from data source as 'apple' | 'orange' | 'pear'
+      var groupingSortOrder = groupingOrder.split('|');
+      if(groupingOrder) {
+        // sort by some arbitrary sort order
+        for(var item in groupingSortOrder) {
+          // sort by something else
+          var group = clustering[utilities.slugify(groupingSortOrder[item])];
+
+          // sort items in group: countries
+          group.places = utilities.sort(group.places, column, direction);
+          grouping.push(group);
+        }
+      } else {
+        //todo: sort alphabetically
+      }
+    } else {
+      grouping.push({ 'id': '', 'places': utilities.sort(places, column, direction)});
+    }
+    return grouping;
+  }
+
 
   return {
     getData: getDataFromGoogleSpreadsheet,
     prepareIndicators: processedIndicators,
     preparePlaces: processedPlaces,
-    updateScores: updateScores
+    calculateVisibleScores: calculateVisibleScores,
+    updateGrouping: update
   }
 }());

@@ -111,7 +111,7 @@ gulp.task('serve', ['styles', 'fonts', 'ractive_templates'], function () {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('app/templates/*.html', ['ractive_templates'])
+  gulp.watch('app/templates/**/*.html', ['ractive_templates'])
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/fonts/**/*', ['fonts']);
   gulp.watch('bower.json', ['wiredep', 'fonts']);

@@ -15,6 +15,9 @@ gulp serve
 gulp
 deploy the distribution folder
 
+## Download
+python ./bower_components/tabletop/caching/local.py [key]
+
 ## License
 
 Content on this site, made by Open Knowledge, is licensed under a Creative Commons Attribution 4.0 International License.

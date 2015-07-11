@@ -3,15 +3,36 @@
 
 var utilities = (function() {
 
-  function sort(array, column, sd) {
-    //console.log(array, column, sd)
+  // function sortGroups(data, column, direction) {
+  //   var groups = data;
+  //   for(var group in groups) {
+  //     var sorted = [];
+  //     // for ease of displaying groups
+  //     groups[group]['places'][0]['first'] = false;
+  //     sorted = sort(groups[group]['places'], column, direction);
+  //     groups[group]['places'][0]['first'] = true;
+  //     groups[group].places = sorted;
+  //   }
+  //   return groups;
+  // }
+
+  /* Sort array */
+  function sort(array, column, direction) {
     array = array.slice();
     var c = array.sort(function(a, b) {
-      //console.log(a[column] < b[column], a, b[column], column)
-      return a[column] < b[column] ? -sd : sd;
+      return a[column] < b[column] ? -direction : direction;
     });
-    //console.log(c)
     return c;
+  }
+
+  /* For grouping */
+  function slugify(text) {
+    return text.toString().toLowerCase()
+      .replace(/\s+/g, '-')           // Replace spaces with -
+      .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+      .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+      .replace(/^-+/, '')             // Trim - from start of text
+      .replace(/-+$/, '');            // Trim - from end of text
   }
 
   /* Expect dirty data from spreadsheet, json etc */
@@ -23,6 +44,8 @@ var utilities = (function() {
 
   return {
     sort: sort,
-    isTrue: isTrue
+    // sortGroups: sortGroups,
+    isTrue: isTrue,
+    slugify: slugify
   }
 }());
