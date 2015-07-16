@@ -15,7 +15,6 @@ var app = (function(window) {
       groups: [{ 'id' : '', 'places' : processCountries }],
       sorting: {
         open: false,
-    //    sort: utilities.sortGroups,
         column: 'title', // default
         direction: 1,
         grouping: ''

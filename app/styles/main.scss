@@ -175,6 +175,11 @@ header {
   td {
     font-size: 1.2em;
   }
+  td.score {
+    padding-right: 1em;
+    text-align: right;
+  }
+
   .score {
     width: 5%;
   }
