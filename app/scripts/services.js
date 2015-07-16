@@ -42,13 +42,6 @@ var services = (function() {
     }
   }
 
-  function visibleIndicator(indicators, indicatorId) {
-    if(indicators.indexOf(indicatorId) != -1) {
-      return true;
-    }
-    return false;
-  }
-
   function processedPlaces(data, values, visibleIndicators) {
     var places = data;
     var visible = visibleIndicators || [];
@@ -121,20 +114,14 @@ var services = (function() {
 
       // sort grouping, dirty little hack for sorting order
       // comes from data source as 'apple' | 'orange' | 'pear'
-      var groupingSortOrder = groupingOrder.split('|');
-      if(groupingOrder) {
-        // sort by some arbitrary sort order
-        for(var item in groupingSortOrder) {
-          // sort by something else
-          var group = clustering[utilities.slugify(groupingSortOrder[item])];
+      var sortOrder = groupingOrder ? groupingOrder.split('|') : Object.keys(clustering).sort(function(a, b) { return a < b; });
 
-          // sort items in group: countries
-          group.places = utilities.sort(group.places, column, direction);
-          grouping.push(group);
-        }
-      } else {
-        //todo: sort alphabetically
+      for(var item in sortOrder) {
+        var group = clustering[utilities.slugify(sortOrder[item])];
+        group.places = utilities.sort(group.places, column, direction);
+        grouping.push(group);
       }
+
     } else {
       grouping.push({ 'id': '', 'places': utilities.sort(places, column, direction)});
     }

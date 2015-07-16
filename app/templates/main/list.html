@@ -5,7 +5,7 @@
       {{#sorting.grouping}}
       <th class="grouping theader">Grouping</th>
       {{/}}
-      <th on-tap="sorting.sort:title" class='country sortable theader {{ sorting.column === "title" ? "sorted" : "" }} {{ sorting.direction === -1 && sorting.column === "title" ? "dropup" : ""}}'>Country<span class='caret'></span></th>
+      <th on-tap="sorting.sort:title" class="country sortable theader {{ sorting.column === 'title' ? 'sorted' : '' }} {{ sorting.direction === -1 && sorting.column === 'title' ? 'dropup' : ''}}">Country<span class="caret"></span></th>
       <th>
         {{#indicators.visible:item}}
         <div class="indicator-pil label label-default theader truncate" style="background-color: {{getIndicator(this, 'colour')}}; width: indicators.scoring.length / indicators.visible.length-1">
@@ -41,12 +41,12 @@
         <div class="result-wrapper">
 
           {{#each indicators.visible}}
-              <a class="indicator" href="#" title="" style="{{#valuesMap[this].normalised}}width: {{valuesMap[this].normalised / indicators.visible.length-1 }}%;{{/}} background-color: {{getIndicator(this, 'colour')}}" data-title="<h3>{{getIndicator(this, 'title')}}</h3><p>{{valuesMap[this].normalised}}</p><p>{{getIndicator(this, 'description')}}</p>"></a>
+              <a on-tap="info" class="indicator" href="#" title="" style="{{#valuesMap[this].normalised}}width: {{valuesMap[this].normalised / indicators.visible.length-1 }}%;{{/}} background-color: {{getIndicator(this, 'colour')}}" data-title="<div class='popover'><p>valuesMap[this].normalised</p><h3>{{getIndicator(this, 'title')}}</h3><p>{{valuesMap[this].normalised}}</p><p>{{getIndicator(this, 'description')}}</p></div>index source, index and name "></a>
           {{/each}}
 
         </div>
       </td>
-      <td>{{score}}</td>
+      <td class="score">{{score}}</td>
 
     </tr>
 

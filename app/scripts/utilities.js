@@ -3,19 +3,6 @@
 
 var utilities = (function() {
 
-  // function sortGroups(data, column, direction) {
-  //   var groups = data;
-  //   for(var group in groups) {
-  //     var sorted = [];
-  //     // for ease of displaying groups
-  //     groups[group]['places'][0]['first'] = false;
-  //     sorted = sort(groups[group]['places'], column, direction);
-  //     groups[group]['places'][0]['first'] = true;
-  //     groups[group].places = sorted;
-  //   }
-  //   return groups;
-  // }
-
   /* Sort array */
   function sort(array, column, direction) {
     array = array.slice();
@@ -44,7 +31,6 @@ var utilities = (function() {
 
   return {
     sort: sort,
-    // sortGroups: sortGroups,
     isTrue: isTrue,
     slugify: slugify
   }
