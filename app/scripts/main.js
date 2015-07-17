@@ -13,8 +13,10 @@ var app = (function(window) {
       // All values for an indicated, listed by place
       model: processCountries,
       groups: [{ 'id' : '', 'places' : processCountries }],
-      sorting: {
+      filter: {
         open: false,
+      },
+      sorting: {
         column: 'title', // default
         direction: 1,
         grouping: ''
