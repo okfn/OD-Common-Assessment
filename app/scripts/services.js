@@ -89,7 +89,11 @@ var services = (function() {
         return place.show;
       });
       // mark first visible item
+      if(group) {
+        console.log(groups)
       group['places'][0]['first'] = true;
+
+    }
     });
     return groups;
   }
