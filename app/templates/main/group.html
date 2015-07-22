@@ -1,13 +1,10 @@
- <div class="grouping">
-  <div class="btn-group">
-    <div id="grouping" class="form-horizontal" role="menu">
-      <label>Group by:</label>
-      <select class="form-control" value='{{sorting.grouping}}'>
-          <option value="" selected="selected">none</option>
-      {{#each indicators.grouping:item}}
-          <option value="{{this}}">{{getIndicator(this, 'title')}}</option>
-      {{/each}}
-      </select>
-    </div>
-  </div>
-</div>
+
+<form class="form-inline" role="menu">
+  <label>Group by:</label>
+  <select class="form-control" value='{{sorting.grouping}}'>
+      <option value="" selected="selected">none</option>
+  {{#each indicators.grouping:item}}
+      <option value="{{this}}">{{getIndicator(this, 'title')}}</option>
+  {{/each}}
+  </select>
+</form>
