@@ -3,9 +3,9 @@
   <thead>
     <tr>
       {{#sorting.grouping}}
-      <th class="grouping theader">Grouping</th>
+      <th class="grouping theader"><div class="wrapper">Grouping</div></th>
       {{/}}
-      <th on-tap="sorting.sort:title" class="country sortable theader {{ sorting.column === 'title' ? 'sorted' : '' }} {{ sorting.direction === -1 && sorting.column === 'title' ? 'dropup' : ''}}">Country<span class="caret"></span></th>
+      <th on-tap="sorting.sort:title" class="sortable theader {{ sorting.column === 'title' ? 'sorted' : '' }} {{ sorting.direction === -1 && sorting.column === 'title' ? 'dropup' : ''}}"><div class="wrapper">Country<span class="caret"></span></div></th>
       <th>
         {{#indicators.visible:item}}
         <div class="indicator-pil label label-default theader truncate" style="background-color: {{getIndicator(this, 'colour')}}; width: indicators.scoring.length / indicators.visible.length-1">
@@ -20,7 +20,7 @@
         class="score sortable theader
         {{ sorting.column === 'score' ? 'sorted' : '' }}
         {{ sorting.direction === -1 && sorting.column === 'score'  ? 'dropup' : ''}}">
-        <div>Score<span class='caret'></span></div></th>
+        <div class="wrapper">Score<span class='caret'></span></div></th>
     </tr>
   </thead>
   <tbody>
@@ -41,7 +41,8 @@
         <div class="result-wrapper">
 
           {{#each indicators.visible}}
-              <a on-tap="info" class="indicator" href="#" title="" style="{{#valuesMap[this].normalised}}width: {{valuesMap[this].normalised / indicators.visible.length-1 }}%;{{/}} background-color: {{getIndicator(this, 'colour')}}" data-title="<div class='popover'><p>valuesMap[this].normalised</p><h3>{{getIndicator(this, 'title')}}</h3><p>{{valuesMap[this].normalised}}</p><p>{{getIndicator(this, 'description')}}</p></div>index source, index and name "></a>
+              <a decorator='tooltip:<div class="tooltip-arrow"></div>
+              <div class="tooltip-inner"><p class="ind-score">{{valuesMap[this].normalised}}</p><p class="title">{{getIndicator(this, 'title')}}</p><p class="description">{{getIndicator(this, 'description')}}</p></div>' on-tap="info" class="indicator" href="#" title="" style="{{#valuesMap[this].normalised}}width: {{valuesMap[this].normalised / indicators.visible.length-1 }}%;{{/}} background-color: {{getIndicator(this, 'colour')}}"></a>
           {{/each}}
 
         </div>
