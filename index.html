@@ -16,9 +16,9 @@
   ga('create', 'UA-XXXXX-X');
   ga('send', 'pageview');
   </script>      <script src="scripts/vendor.js"></script> <script src="scripts/main.js"></script> <script>
-  $(document).ready(function() {
+  (function() {
     Ractive.DEBUG = /unminified/.test(function(){/*unminified*/});
     Ractive.DEBUG = false;
     app.start();
-  });
+  })();
   </script> </body> </html>
