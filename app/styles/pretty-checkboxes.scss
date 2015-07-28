@@ -1,0 +1,79 @@
+
+/* Pretty Checkboxes */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url('../fonts/glyphicons-halflings-regular.eot');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+.checkbox {
+
+  .pretty::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    left: 0;
+    margin-left: -2px;
+    border: 1px solid $primary-color;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  }
+
+  .pretty::after {
+    display: inline-block;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 0;
+    top: 6px;
+    margin-left: -2px;
+    padding-left: 3px;
+    padding-top: 1px;
+    font-size: 11px;
+    color: #555555;
+  }
+
+  input[type="checkbox"] {
+   opacity: 0;
+  }
+
+  input[type="checkbox"]:focus + .pretty::before {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+    border-color: $primary-color;
+  }
+
+  input[type="checkbox"]:checked + .pretty::after {
+   font-family: 'Glyphicons Halflings';
+    content: "\e013";
+    color: #fff;
+  }
+
+  input[type="checkbox"]:checked + .pretty::before {
+    background-color: $primary-color;
+  }
+
+  input[type="checkbox"]:disabled + .pretty {
+    opacity: 0.65;
+  }
+
+  input[type="checkbox"]:disabled + .pretty::before {
+      background-color: #eeeeee;
+      cursor: not-allowed;
+  }
+  .checkbox-circle label::before {
+    border-radius: 50%;
+  }
+
+}
+
+
+
+
+

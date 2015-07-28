@@ -1,14 +1,16 @@
 <div class="filter">
   <div class="btn-group">
-    <button class="label label-default dropdown-toggle dropdown" type="button" data-toggle="dropdown" aria-expanded="false"><span class="text"><span>+</span></button>
-    <div id="filter-dropdown" class="dropdown-menu keep-open form-horizontal" role="menu">
+    <button on-tap="filter.toggle" class="label label-default dropdown-toggle dropdown" type="button"><span class="text"><span>+</span></button>
+    <div class="dropdown-menu form-horizontal{{#filter.open}} open{{/}}" role="menu">
       <ul>
       {{#indicators.scoring}}
-        <li>
-        <label>
-          <input type="checkbox" name="{{indicators.visible}}" value="{{this}}" class="{{this}}" >
-          {{getIndicator(this, 'title')}}
-        </label>
+        <li class="checkbox">
+          <label>
+          <input type="checkbox" name="{{indicators.visible}}" value="{{this}}" class="{{this}}">
+            <span class="pretty">
+            {{getIndicator(this, 'title')}}
+            </span>
+          </label>
         </li>
       {{/}}
       </ul>

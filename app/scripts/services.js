@@ -2,6 +2,7 @@
 /* jshint devel:true */
 
 var services = (function() {
+
   function getDataFromGoogleSpreadsheet(callback) {
     var URL = '1kOOvztwbY1RNm545RKG8Ua6bh2GgX-P_wFadPkdH2ig';
     Tabletop.init({
@@ -63,6 +64,8 @@ var services = (function() {
   function calculateVisibleScores(data, visible) {
     // only calculates visible scores aka scores for scoring
     // display only the countries that have scores
+    console.log(data, visible)
+    var visible = visible ? visible : [];
     var groups = data;
     groups.map(function(group){
       // each value, check calculate
@@ -89,11 +92,12 @@ var services = (function() {
         return place.show;
       });
       // mark first visible item
-      if(group) {
-        console.log(groups)
-      group['places'][0]['first'] = true;
 
-    }
+      if(group && group['places'] && group['places'][0]) {
+        console.log(groups)
+        group['places'][0]['first'] = true;
+
+      }
     });
     return groups;
   }

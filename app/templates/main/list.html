@@ -1,3 +1,5 @@
+{{^groups}}<h1>Not loaded yet</h1>{{/}}
+{{#groups}}
 <div id="grouping"><grouping /></div>
 <table class='countries'>
   <thead>
@@ -8,13 +10,13 @@
       <th on-tap="sorting.sort:title" class="sortable theader {{ sorting.column === 'title' ? 'sorted' : '' }} {{ sorting.direction === -1 && sorting.column === 'title' ? 'dropup' : ''}}"><div class="wrapper">Country<span class="caret"></span></div></th>
       <th>
         {{#indicators.visible:item}}
-        <div class="indicator-pil label label-default theader truncate" style="background-color: {{getIndicator(this, 'colour')}}; width: indicators.scoring.length / indicators.visible.length-1">
+        <div class="indicator-pil label label-default theader truncate" style="background-color: {{getIndicator(this, 'colour')}};">
             <button on-tap="indicator.remove" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
             </button>
            {{getIndicator(this, 'title')}}
         </div>
         {{/}}
-        <div id="filter"><filter /></div>
+        <div id="filter"><filtering /></div>
       </th>
       <th on-tap="sorting.sort:score"
         class="score sortable theader
@@ -52,6 +54,9 @@
     </tr>
 
     {{/each}}
+
+
   {{/each}}
   </tbody>
 </table>
+{{/}}

@@ -63,6 +63,7 @@
   <!-- bower:js -->
   <script src="/bower_components/tabletop/src/tabletop.js"></script>
   <script src="/bower_components/ractive/ractive.js"></script>
+  <script src="/bower_components/ractive-events-tap/ractive-events-tap.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:js scripts/plugins.js -->
@@ -78,9 +79,11 @@
   <script src="scripts/main.js"></script>
   <!-- endbuild -->
   <script>
+  (function() {
     Ractive.DEBUG = /unminified/.test(function(){/*unminified*/});
     Ractive.DEBUG = false;
     app.start();
+  })();
   </script>
 
 </body>
